@@ -38,7 +38,7 @@ def get_config():
         print(f"Error fetching config from {config_path}: {e}")
         return {}
 
-def generate_topic(niche, tone):
+def generate_topic(niche, tone, language):
     """Generate a viral topic idea."""
     model = genai.GenerativeModel('gemini-2.0-flash')
     prompt = f"Give me 1 viral blog post title about {niche} in the language '{language}'. The tone should be {tone}. Just the title, no quotes."
@@ -99,7 +99,7 @@ def main():
     
     # 1. Topic
     try:
-        title = generate_topic(niche, tone)
+        title = generate_topic(niche, tone, language)
         print(f"Generated Title: {title}")
         
         # 2. Content
