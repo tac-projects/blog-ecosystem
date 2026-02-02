@@ -25,14 +25,37 @@ const FactoryDashboard = () => {
         status: 'Active'
     });
 
-    // Check for saved token on load
+    const [password, setPassword] = useState('');
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [passError, setPassError] = useState('');
+
+    const MASTER_PASSWORD = "AutObloG846@!";
+
+    // Check for saved token and password on load
     useEffect(() => {
         const savedToken = localStorage.getItem('gh_token');
+        const authFlag = localStorage.getItem('is_auth');
+
+        if (authFlag === 'true') {
+            setIsAuthorized(true);
+        }
+
         if (savedToken) {
             setGithubToken(savedToken);
             fetchConfig(savedToken);
         }
-    }, []);
+    }, [isAuthorized]);
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (password === MASTER_PASSWORD) {
+            localStorage.setItem('is_auth', 'true');
+            setIsAuthorized(true);
+            setPassError('');
+        } else {
+            setPassError('Mot de passe incorrect ❌');
+        }
+    };
 
     // Helper to decode Base64 (UTF-8 safe)
     const base64Decode = (str) => {
@@ -136,6 +159,44 @@ const FactoryDashboard = () => {
         setLoading(false);
     };
 
+    if (!isAuthorized) {
+        return (
+            <div className="min-h-screen bg-slate-900 flex items-center justify-center p-6 selection:bg-blue-500/30">
+                <div className="max-w-md w-full bg-slate-800/50 backdrop-blur-2xl border border-slate-700/50 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl"></div>
+
+                    <div className="flex flex-col items-center mb-8 relative z-10">
+                        <div className="p-4 bg-blue-600 rounded-2xl shadow-lg mb-4">
+                            <Key className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-2xl font-bold text-white tracking-tight">Accès Sécurisé</h1>
+                        <p className="text-slate-400 text-sm">Veuillez entrer le mot de passe maître.</p>
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-4 relative z-10">
+                        <input
+                            type="password"
+                            autoFocus
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-5 py-4 text-white focus:ring-2 focus:ring-blue-600 outline-none transition-all placeholder-slate-600"
+                            placeholder="••••••••••••"
+                        />
+                        {passError && <p className="text-red-400 text-sm font-medium text-center">{passError}</p>}
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-600/20 transition-all active:scale-95"
+                        >
+                            Déverrouiller le Dashboard
+                        </button>
+                    </form>
+
+                    <p className="text-center mt-8 text-slate-500 text-xs tracking-widest uppercase">AutoBlog Factory Pro</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100 font-sans p-8 selection:bg-blue-500/30">
             <div className="max-w-6xl mx-auto">
@@ -154,13 +215,22 @@ const FactoryDashboard = () => {
                             <p className="text-slate-400">Control Center & Orchestrator</p>
                         </div>
                     </div>
-                    <div className="bg-slate-800/80 backdrop-blur border border-slate-700/50 px-4 py-2 rounded-full flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                        <span className="text-sm font-medium text-emerald-400">System Online</span>
+                    <div className="flex items-center gap-4">
+                        <div className="bg-slate-800/80 backdrop-blur border border-slate-700/50 px-4 py-2 rounded-full flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                            <span className="text-sm font-medium text-emerald-400">System Online</span>
+                        </div>
+                        <button
+                            onClick={() => { localStorage.removeItem('is_auth'); setIsAuthorized(false); }}
+                            className="text-xs text-slate-500 hover:text-red-400 transition-colors"
+                        >
+                            Déconnexion
+                        </button>
                     </div>
                 </header>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
 
                     {/* Main Configuration Panel */}
                     <div className="lg:col-span-2">
