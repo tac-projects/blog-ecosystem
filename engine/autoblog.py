@@ -11,6 +11,16 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
 # else case handled in generation
+# else case handled in generation
+
+# Constants
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BLOG_CONTENT_DIR = os.path.join(BASE_DIR, '../blog_template/src/content/blog')
+    
+# CLI Args
+parser = argparse.ArgumentParser()
+parser.add_argument('--dry-run', action='store_true', help='Do not save files')
+args = parser.parse_args()
 
 def get_config():
     """Fetch blog configuration from blog_config.json."""
