@@ -79,7 +79,7 @@ const FactoryDashboard = () => {
             const octokit = new Octokit({ auth: token });
             const [owner, repo] = config.githubRepo.split('/');
 
-            const response = await octokit.repos.getContent({
+            const response = await octokit.rest.repos.getContent({
                 owner,
                 repo,
                 path: 'blog_config.json',
@@ -122,7 +122,7 @@ const FactoryDashboard = () => {
             // 1. Get current SHA if we don't have it (or to be safe)
             let currentSha = sha;
             try {
-                const { data } = await octokit.repos.getContent({
+                const { data } = await octokit.rest.repos.getContent({
                     owner,
                     repo,
                     path: 'blog_config.json'
@@ -134,7 +134,7 @@ const FactoryDashboard = () => {
 
             // 2. Update Configuration
             const jsonContent = JSON.stringify(config, null, 2);
-            await octokit.repos.createOrUpdateFileContents({
+            await octokit.rest.repos.createOrUpdateFileContents({
                 owner,
                 repo,
                 path: 'blog_config.json',
@@ -147,7 +147,7 @@ const FactoryDashboard = () => {
             setSha(currentSha); // It changes after update, but we'd need to re-fetch to be exact.
 
             // Re-fetch to get new SHA
-            const { data } = await octokit.repos.getContent({
+            const { data } = await octokit.rest.repos.getContent({
                 owner, repo, path: 'blog_config.json'
             });
             setSha(data.sha);
@@ -396,7 +396,28 @@ const FactoryDashboard = () => {
                             </div>
                             <h3 className="text-lg font-semibold text-white mb-2 relative z-10">Next Scheduled Run</h3>
                             <p className="text-indigo-200 text-sm mb-6 relative z-10">The automation engine will trigger in 04:23:00</p>
-                            <button className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 relative z-10">
+                            <button
+                                onClick={async () => {
+                                    if (!githubToken) return alert("Token manquant !");
+                                    if (!confirm("Lancer la génération d'un article maintenant ?")) return;
+                                    try {
+                                        const octokit = new Octokit({ auth: githubToken });
+                                        const [owner, repo] = config.githubRepo.split('/');
+                                        console.log("Triggering workflow:", { owner, repo, workflow_id: 'main.yml' });
+
+                                        await octokit.rest.actions.createWorkflowDispatch({
+                                            owner,
+                                            repo,
+                                            workflow_id: 'main.yml',
+                                            ref: 'main'
+                                        });
+                                        alert("🚀 Robot lancé ! L'article arrivera dans ~2 minutes.");
+                                    } catch (e) {
+                                        console.error("Workflow trigger failed:", e);
+                                        alert("Erreur : " + e.message + (e.status ? ` (Status: ${e.status})` : ""));
+                                    }
+                                }}
+                                className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 relative z-10">
                                 Trigger Manually
                             </button>
                         </div>
