@@ -29,7 +29,6 @@ jobs:
       - name: Run AutoBlog Engine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python engine/autoblog.py
 
