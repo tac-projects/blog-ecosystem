@@ -51,6 +51,15 @@ jobs:
           npm install
           npm run build
 
+      - name: Build Dashboard
+        working-directory: ./dashboard
+        run: |
+          npm install
+          npm run build
+          # Move dashboard build to a subfolder in the blog build
+          mkdir -p ../blog_template/dist/dashboard
+          cp -r dist/* ../blog_template/dist/dashboard/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
