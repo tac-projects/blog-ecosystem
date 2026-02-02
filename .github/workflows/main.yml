@@ -29,7 +29,7 @@ jobs:
       - name: Run AutoBlog Engine
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }} # JSON string content
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python engine/autoblog.py
 
@@ -52,6 +52,11 @@ jobs:
           npm install
           npm run build
 
-      # Deploy to GitHub Pages (optional, requires Pages setup)
-      # - name: Deploy to GitHub Pages
-      #   uses: actions/deploy-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './blog_template/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
