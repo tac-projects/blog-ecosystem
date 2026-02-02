@@ -3,6 +3,7 @@ import datetime
 import random
 import time
 import argparse
+import urllib.parse
 import google.generativeai as genai
 import json
 
@@ -100,13 +101,21 @@ def main():
         content = generate_content(title, tone, language)
         print("Content generated.")
         
-        # 3. Image (Mocked for robustness if no KEY)
-        # Real implementation would use Imagen/Vertex AI
-        # For this boilerplate, we use a reliable placeholder based on keyword
-        keyword = niche.split()[0]
-        image_url = f"https://source.unsplash.com/1200x630/?{keyword}" 
-        # Note: source.unsplash is deprecated/unreliable sometimes, using a generic one
-        image_url = "/blog-placeholder-1.jpg" # Fallback to local asset
+        # 3. Image Generation (AI)
+        print("Generating AI Image...")
+        
+        # Ask Gemini for a "Cute" visual description based on the title
+        image_prompt_request = f"Give me a short, highly descriptive image prompt for an adorable, cute, fluffy cat image related to this blog title: '{title}'. Style: Disney Pixar 3D or Hyperrealistic cute. No text in image. Just the prompt in English."
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        image_prompt_response = model.generate_content(image_prompt_request)
+        image_prompt = image_prompt_response.text.strip()
+        print(f"Image Prompt: {image_prompt}")
+
+        # Use Pollinations.ai (Free, Unlimited, URL-based)
+        # We add a random seed to ensure uniqueness even if prompt is similar
+        seed = random.randint(1, 10000000)
+        encoded_prompt = urllib.parse.quote(image_prompt)
+        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?seed={seed}&width=1200&height=630&nologo=true"
         
         # 4. Save
         save_post(title, content, image_url)
