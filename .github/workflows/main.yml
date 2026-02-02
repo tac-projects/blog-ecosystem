@@ -3,8 +3,8 @@ name: AutoBlog Daily Run
 on:
   push:
     branches: [ main ]
-  schedule:
-    - cron: '0 8 * * *' # Every day at 8:00 UTC
+  # schedule:
+  #   - cron: '0 8 * * *' # Every day at 8:00 UTC
   workflow_dispatch: # Allow manual trigger
 
 jobs:
