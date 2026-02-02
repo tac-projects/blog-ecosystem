@@ -4,56 +4,22 @@ import random
 import time
 import argparse
 import google.generativeai as genai
-import firebase_admin
-from firebase_admin import credentials, firestore
-
-# Configure arguments
-parser = argparse.ArgumentParser(description='AutoBlog Engine')
-parser.add_argument('--dry-run', action='store_true', help='Do not save files')
-args = parser.parse_args()
-
-# Setup paths
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-BLOG_CONTENT_DIR = os.path.join(BASE_DIR, '../blog_template/src/content/blog')
-
-# Initialize Firebase
-# Expects GOOGLE_APPLICATION_CREDENTIALS env var or FIREBASE_CREDENTIALS_JSON content
-cred_path = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-if not cred_path and os.environ.get('FIREBASE_CREDENTIALS'):
-    # Create temp file from env string if needed, or initialized via dict
-    # For simplicity, we assume we can initialize from a dict if provided as JSON string
-    # But firebase_admin usually takes a file path or dict.
-    import json
-    cred_dict = json.loads(os.environ.get('FIREBASE_CREDENTIALS'))
-    cred = credentials.Certificate(cred_dict)
-else:
-    # Fallback/Local dev
-    cred = credentials.ApplicationDefault() # Or usage of local file
-
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+import json
 
 # Initialize Gemini
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
-else:
-    print("WARNING: GEMINI_API_KEY not set.")
+# else case handled in generation
 
 def get_config():
-    """Fetch blog configuration from Firestore."""
+    """Fetch blog configuration from blog_config.json."""
+    config_path = os.path.join(BASE_DIR, '../blog_config.json')
     try:
-        doc_ref = db.collection('settings').document('blogConfig')
-        doc = doc_ref.get()
-        if doc.exists:
-            return doc.to_dict()
-        else:
-            print("No config found, using defaults.")
-            return {}
+        with open(config_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
     except Exception as e:
-        print(f"Error fetching config: {e}")
+        print(f"Error fetching config from {config_path}: {e}")
         return {}
 
 def generate_topic(niche, tone):
