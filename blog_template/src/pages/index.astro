@@ -1,0 +1,84 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* Custom Scrollbar */
+			::-webkit-scrollbar {
+				width: 8px;
+			}
+			::-webkit-scrollbar-track {
+				background: #0f172a; 
+			}
+			::-webkit-scrollbar-thumb {
+				background: #334155; 
+				border-radius: 4px;
+			}
+			::-webkit-scrollbar-thumb:hover {
+				background: #475569; 
+			}
+		</style>
+	</head>
+	<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-500/30">
+		<Header />
+		<main class="flex-grow container mx-auto px-4 py-16">
+			<section>
+				<div class="text-center mb-20">
+					<h1 class="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 mb-6 drop-shadow-sm tracking-tight">{SITE_TITLE}</h1>
+					<p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">{SITE_DESCRIPTION}</p>
+				</div>
+				
+				<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{
+						posts.map((post) => (
+							<li class="group bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+								<a href={`/blog/${post.id}/`} class="block h-full flex flex-col">
+									<div class="aspect-[16/9] overflow-hidden relative">
+										<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
+										<img 
+											width={720} 
+											height={360} 
+											src={post.data.heroImage || '/blog-placeholder-about.jpg'} 
+											alt="" 
+											class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+										/>
+									</div>
+									<div class="p-6 flex flex-col flex-grow relative z-20">
+										<div class="flex items-center justify-between mb-3">
+											<FormattedDate date={post.data.pubDate} class="text-sm text-blue-400 font-medium tracking-wide uppercase" />
+											{/* Placeholder for category/tag if available */}
+											<span class="text-xs px-2 py-1 rounded-full bg-slate-700 text-slate-300">Article</span>
+										</div>
+										<h4 class="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors leading-tight">
+											{post.data.title}
+										</h4>
+										<div class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
+											{post.data.description}
+										</div>
+										<div class="mt-auto flex items-center text-blue-400 text-sm font-semibold group/link">
+											Read Article <span class="ml-1 group-hover/link:ml-2 transition-all">&rarr;</span>
+										</div>
+									</div>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

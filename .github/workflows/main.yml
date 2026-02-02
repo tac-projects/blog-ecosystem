@@ -1,0 +1,57 @@
+name: AutoBlog Daily Run
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Every day at 8:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # To push new posts
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install -r engine/requirements.txt
+
+      - name: Run AutoBlog Engine
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }} # JSON string content
+        run: |
+          python engine/autoblog.py
+
+      - name: Commit New Posts
+        run: |
+          git config --global user.name 'AutoBlog Bot'
+          git config --global user.email 'bot@noreply.com'
+          git add blog_template/src/content/blog/
+          git commit -m "Auto-generated content: $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build Blog
+        working-directory: ./blog_template
+        run: |
+          npm install
+          npm run build
+
+      # Deploy to GitHub Pages (optional, requires Pages setup)
+      # - name: Deploy to GitHub Pages
+      #   uses: actions/deploy-pages@v4
