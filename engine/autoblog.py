@@ -36,14 +36,14 @@ def get_config():
 
 def generate_topic(niche, tone):
     """Generate a viral topic idea."""
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-pro')
     prompt = f"Give me 1 viral blog post title about {niche}. The tone should be {tone}. Just the title, no quotes."
     response = model.generate_content(prompt)
     return response.text.strip()
 
 def generate_content(title, tone, language):
     """Generate full blog post content in Markdown."""
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-pro')
     prompt = f"""
     Write a 1200-word blog post about "{title}".
     Tone: {tone}. Language: {language}.
