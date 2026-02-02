@@ -45,7 +45,7 @@ const posts = (await getCollection('blog')).sort(
 					{
 						posts.map((post) => (
 							<li class="group bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
-								<a href={`/blog/${post.id}/`} class="block h-full flex flex-col">
+								<a href={`${import.meta.env.BASE_URL}/blog/${post.slug || post.id}/`} class="block h-full flex flex-col">
 									<div class="aspect-[16/9] overflow-hidden relative">
 										<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10 opacity-60 group-hover:opacity-40 transition-opacity"></div>
 										<img 
