@@ -38,11 +38,26 @@ def get_config():
         print(f"Error fetching config from {config_path}: {e}")
         return {}
 
+def generate_with_retry(model, prompt, tries=3, delay=5):
+    """Helper to generate content with retry on 429 errors."""
+    for i in range(tries):
+        try:
+            return model.generate_content(prompt)
+        except Exception as e:
+            if "429" in str(e) or "Resource exhausted" in str(e):
+                if i < tries - 1:
+                    wait_time = delay * (2 ** i)
+                    print(f"Rate limit hit (429). Retrying in {wait_time}s...")
+                    time.sleep(wait_time)
+                    continue
+            raise e
+
+
 def generate_topic(niche, tone, language):
     """Generate a viral topic idea."""
     model = genai.GenerativeModel('gemini-2.0-flash')
     prompt = f"Give me 1 viral blog post title about {niche} in the language '{language}'. The tone should be {tone}. Just the title, no quotes."
-    response = model.generate_content(prompt)
+    response = generate_with_retry(model, prompt)
     return response.text.strip()
 
 def generate_content(title, tone, language):
@@ -56,7 +71,7 @@ def generate_content(title, tone, language):
     Do NOT include the title at the start (it will be in frontmatter).
     Do NOT wrap in markdown code blocks.
     """
-    response = model.generate_content(prompt)
+    response = generate_with_retry(model, prompt)
     return response.text
 
 def save_post(title, content, image_url):
@@ -112,7 +127,7 @@ def main():
         # Ask Gemini for a "Cute" visual description based on the title
         image_prompt_request = f"Give me a short, highly descriptive image prompt for an adorable, cute, fluffy cat image related to this blog title: '{title}'. Style: Disney Pixar 3D or Hyperrealistic cute. No text in image. Just the prompt in English."
         model = genai.GenerativeModel('gemini-2.0-flash')
-        image_prompt_response = model.generate_content(image_prompt_request)
+        image_prompt_response = generate_with_retry(model, image_prompt_request)
         image_prompt = image_prompt_response.text.strip()
         print(f"Image Prompt: {image_prompt}")
 
