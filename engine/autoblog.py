@@ -6,6 +6,7 @@ import argparse
 import urllib.parse
 import google.generativeai as genai
 import json
+import sys
 
 # Initialize Gemini
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
@@ -123,6 +124,7 @@ def main():
     except Exception as e:
         print(f"CRITICAL ERROR: {e}")
         # In production, send alert to Dashboard
+        sys.exit(1)
         
 if __name__ == "__main__":
     main()
