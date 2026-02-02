@@ -111,7 +111,7 @@ def main():
         
         # Ask Gemini for a "Cute" visual description based on the title
         image_prompt_request = f"Give me a short, highly descriptive image prompt for an adorable, cute, fluffy cat image related to this blog title: '{title}'. Style: Disney Pixar 3D or Hyperrealistic cute. No text in image. Just the prompt in English."
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         image_prompt_response = model.generate_content(image_prompt_request)
         image_prompt = image_prompt_response.text.strip()
         print(f"Image Prompt: {image_prompt}")
