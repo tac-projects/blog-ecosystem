@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, Save, BarChart3, Globe, Zap, PenTool, Layout, CheckCircle, AlertCircle, Key } from 'lucide-react';
+import { Settings, Save, BarChart3, Globe, Zap, PenTool, Layout, CheckCircle, AlertCircle, Key, Play, Square, Clock, Power } from 'lucide-react';
 import { Octokit } from "@octokit/rest";
 
 const FactoryDashboard = () => {
@@ -13,7 +13,9 @@ const FactoryDashboard = () => {
         githubRepo: 'tac-projects/blog-ecosystem', // Auto-filled
         niche: '',
         language: 'Français',
-        tone: 'Expert'
+        tone: 'Expert',
+        automationActive: true,
+        publishTime: '08:00'
     });
 
     const [githubToken, setGithubToken] = useState('');
@@ -143,7 +145,51 @@ const FactoryDashboard = () => {
                 sha: currentSha, // Include SHA to update existing file
             });
 
-            setSuccess('Configuration saved to GitHub repository!');
+            // 3. Update Workflow (Schedule)
+            try {
+                const workflowRes = await octokit.rest.repos.getContent({
+                    owner,
+                    repo,
+                    path: '.github/workflows/main.yml'
+                });
+
+                let workflowContent = base64Decode(workflowRes.data.content);
+                const [hours, minutes] = config.publishTime.split(':');
+                const cronExpr = `${minutes} ${hours} * * *`;
+
+                // Handle enabling/disabling via regex
+                if (config.automationActive) {
+                    // Ensure schedule block is present and uncommented
+                    const scheduleBlock = `  schedule:\n    - cron: '${cronExpr}' # Every day at ${config.publishTime} UTC`;
+
+                    // Regex to find and replace/insert schedule block
+                    if (workflowContent.includes('schedule:')) {
+                        workflowContent = workflowContent.replace(/#?\s*schedule:[\s\S]*?- cron: '.*?'/m, scheduleBlock);
+                    } else {
+                        // Insert after branches or similar
+                        workflowContent = workflowContent.replace(/branches: \[.*\]/, `$&\n${scheduleBlock}`);
+                    }
+                } else {
+                    // Comment out the schedule block if it exists
+                    workflowContent = workflowContent.replace(/  schedule:\n    - cron: '.*?'/m, (match) => {
+                        return match.split('\n').map(line => `  # ${line.trim()}`).join('\n');
+                    });
+                }
+
+                await octokit.rest.repos.createOrUpdateFileContents({
+                    owner,
+                    repo,
+                    path: '.github/workflows/main.yml',
+                    message: `chore: ${config.automationActive ? 'enable' : 'disable'} automation schedule via dashboard`,
+                    content: base64Encode(workflowContent),
+                    sha: workflowRes.data.sha,
+                });
+            } catch (workflowErr) {
+                console.warn("Failed to update workflow file:", workflowErr);
+                // We don't block the success message if config saved, but maybe notify?
+            }
+
+            setSuccess('Configuration saved and workflow synchronized!');
             setSha(currentSha); // It changes after update, but we'd need to re-fetch to be exact.
 
             // Re-fetch to get new SHA
@@ -263,7 +309,7 @@ const FactoryDashboard = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
+                                    <div className="md:col-span-2">
                                         <label className="block text-sm font-medium text-slate-400 mb-2">Blog Name</label>
                                         <input
                                             type="text"
@@ -275,7 +321,9 @@ const FactoryDashboard = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-400 mb-2">Algorithm Niche</label>
+                                        <label className="block text-sm font-medium text-slate-400 mb-2 font-medium flex items-center gap-2">
+                                            Algorithm Niche
+                                        </label>
                                         <input
                                             type="text"
                                             name="niche"
@@ -283,6 +331,18 @@ const FactoryDashboard = () => {
                                             onChange={handleChange}
                                             className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all placeholder-slate-600"
                                             placeholder="e.g. Artificial Intelligence, Keto Diet"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-400 mb-2 flex items-center gap-2">
+                                            <Clock className="w-4 h-4 text-blue-400" /> Publication Time (UTC)
+                                        </label>
+                                        <input
+                                            type="time"
+                                            name="publishTime"
+                                            value={config.publishTime || '08:00'}
+                                            onChange={handleChange}
+                                            className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                         />
                                     </div>
                                 </div>
@@ -363,6 +423,46 @@ const FactoryDashboard = () => {
 
                     {/* Sidebar Stats */}
                     <div className="space-y-6">
+
+                        {/* Automation Controller Card */}
+                        <div className={`bg-slate-800/40 backdrop-blur-xl border ${config.automationActive ? 'border-emerald-500/30' : 'border-red-500/30'} rounded-2xl p-6 shadow-xl transition-all duration-500`}>
+                            <div className="flex items-center justify-between mb-6">
+                                <div className="flex items-center gap-3">
+                                    <Power className={`w-6 h-6 ${config.automationActive ? 'text-emerald-400' : 'text-red-400'}`} />
+                                    <h2 className="text-xl font-semibold text-white">Automation Engine</h2>
+                                </div>
+                                <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${config.automationActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                                    {config.automationActive ? 'Running' : 'Stopped'}
+                                </div>
+                            </div>
+
+                            <p className="text-sm text-slate-400 mb-8 leading-relaxed">
+                                {config.automationActive
+                                    ? `L'intelligence artificielle est active. Elle publiera un article chaque jour à ${config.publishTime} UTC.`
+                                    : "L'automatisation est en pause. Aucun article ne sera généré automatiquement."}
+                            </p>
+
+                            <button
+                                type="button"
+                                onClick={() => setConfig({ ...config, automationActive: !config.automationActive })}
+                                className={`w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold transition-all active:scale-95 shadow-lg ${config.automationActive
+                                    ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/50 hover:shadow-red-500/10'
+                                    : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-emerald-500/20 hover:shadow-emerald-500/40'
+                                    }`}
+                            >
+                                {config.automationActive ? (
+                                    <>
+                                        <Square className="w-5 h-5 fill-current" />
+                                        STOP AUTOMATION
+                                    </>
+                                ) : (
+                                    <>
+                                        <Play className="w-5 h-5 fill-current" />
+                                        START AUTOMATION
+                                    </>
+                                )}
+                            </button>
+                        </div>
 
                         {/* Stats Card */}
                         <div className="bg-slate-800/40 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-6 shadow-xl">

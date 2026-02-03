@@ -112,6 +112,10 @@ def main():
     
     print(f"Configuration: Niche={niche}, Tone={tone}")
     
+    if not config.get('automationActive', True):
+        print("Automation is disabled. Skipping generation.")
+        return
+    
     # 1. Topic
     try:
         title = generate_topic(niche, tone, language)

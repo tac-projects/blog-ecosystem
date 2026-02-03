@@ -3,5 +3,7 @@
   "githubRepo": "tac-projects/blog-ecosystem",
   "niche": "chats",
   "language": "Français",
-  "tone": "Casual"
+  "tone": "Casual",
+  "automationActive": false,
+  "publishTime": "08:00"
 }
