@@ -38,9 +38,9 @@ jobs:
         run: |
           git config --global user.name 'AutoBlog Bot'
           git config --global user.email 'bot@noreply.com'
-          git add blog_template/src/content/blog/
+          git add -A blog_template/src/content/blog/ || true
           git commit -m "Auto-generated content: $(date +'%Y-%m-%d')" || echo "No changes to commit"
-          git push
+          git push || echo "Nothing to push"
 
       - name: Setup Node
         uses: actions/setup-node@v4
