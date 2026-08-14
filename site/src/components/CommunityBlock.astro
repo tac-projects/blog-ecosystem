@@ -1,0 +1,57 @@
+---
+import { FACEBOOK_URL } from '../consts';
+---
+
+<section class="community">
+	<div class="community-inner">
+		<div class="community-text">
+			<h3>Rejoignez la communauté</h3>
+			<p>
+				Des milliers d'amoureux des chats partagent astuces, photos et tendresse féline
+				au quotidien. Retrouvez-nous sur Facebook !
+			</p>
+		</div>
+		<a class="community-btn" href={FACEBOOK_URL} target="_blank" rel="noopener">
+			Nous suivre sur Facebook
+		</a>
+	</div>
+</section>
+<style>
+	.community {
+		margin-top: 3rem;
+		background: #f5eee4;
+		border: 1px solid var(--accent-soft);
+		border-radius: 12px;
+		padding: 1.5rem 2rem;
+	}
+	.community-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+	.community-text h3 {
+		margin: 0 0 0.35rem;
+	}
+	.community-text p {
+		margin: 0;
+		color: var(--text-soft);
+	}
+	.community-btn {
+		display: inline-block;
+		background: var(--accent);
+		color: #fff;
+		font-weight: 600;
+		text-decoration: none;
+		padding: 0.7em 1.6em;
+		border-radius: 999px;
+		white-space: nowrap;
+		transition: background 0.2s ease;
+		cursor: pointer;
+	}
+	.community-btn:hover {
+		background: var(--accent-dark);
+		color: #fff;
+	}
+</style>

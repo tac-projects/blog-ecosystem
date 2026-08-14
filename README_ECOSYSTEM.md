@@ -51,9 +51,10 @@ Aucune surface web : la CLI n'écrit que dans `blog_config.json`.
 ## Génération manuelle
 
 ```bash
-python3 engine/autoblog.py --dry-run   # test sans écrire
-python3 engine/autoblog.py             # génère un article
-./scripts/deploy.sh                    # génère, build, publie
+python3 engine/autoblog.py --dry-run            # test sans écrire
+python3 engine/autoblog.py                      # génère un article
+python3 engine/autoblog.py --count 12 --days 14 # 12 articles, dates échelonnées sur 14 jours
+./scripts/deploy.sh                             # génère, build, publie
 ```
 
 ## Automatisation quotidienne

@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CommunityBlock from '../components/CommunityBlock.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, url } from '../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -67,6 +68,8 @@ const [featured, ...rest] = posts;
 					))}
 				</ul>
 			</section>
+
+			<CommunityBlock />
 		</main>
 		<Footer />
 		<style>
