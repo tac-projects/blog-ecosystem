@@ -19,6 +19,8 @@ CATEGORIES = ['Comportement', 'Sante & Soins', 'Nutrition', 'Races', 'Mode de vi
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dry-run', action='store_true', help='Do not save files')
+parser.add_argument('--count', type=int, default=1, help='Number of articles to generate')
+parser.add_argument('--days', type=int, default=0, help='Spread pubDate over N past days (0 = today)')
 args = parser.parse_args()
 
 
@@ -81,21 +83,22 @@ def deepseek_chat(prompt, model, api_base, temperature=0.8, max_tokens=2000, thi
 
 
 def existing_titles():
-    """Read titles of already published posts."""
-    titles = []
+    """Read (title, category) of already published posts."""
+    posts = []
     try:
         for f in os.listdir(BLOG_CONTENT_DIR):
             if not f.endswith('.md'):
                 continue
             with open(os.path.join(BLOG_CONTENT_DIR, f), 'r', encoding='utf-8') as fh:
-                content = fh.read(500)
+                content = fh.read(600)
             import re
-            m = re.search(r'^title:\s*"?(.+?)"?\s*$', content, re.MULTILINE)
-            if m:
-                titles.append(m.group(1).strip())
+            title = re.search(r'^title:\s*"?(.+?)"?\s*$', content, re.MULTILINE)
+            cat = re.search(r'^category:\s*["\']?(.+?)["\']?\s*$', content, re.MULTILINE)
+            if title:
+                posts.append((title.group(1).strip(), cat.group(1).strip() if cat else ''))
     except FileNotFoundError:
         pass
-    return titles
+    return posts
 
 
 def title_similarity(t1, t2):
@@ -114,11 +117,43 @@ def is_duplicate(title, existing, threshold=0.55):
     return any(title_similarity(title, t) >= threshold for t in existing)
 
 
-def generate_topic(niche, tone, language, model, api_base):
+def is_semantic_duplicate(title, category, existing_titles, model, api_base):
+    """Ask the model whether the new title is a duplicate SUBJECT of an existing one
+    in the same category. More reliable than word similarity."""
+    if not existing_titles:
+        return False
+    listed = '\n'.join(f'- {t}' for t in existing_titles)
+    prompt = (
+        f'Here are the titles of existing articles in the category "{category}":\n'
+        f'{listed}\n\n'
+        f'New title to check: "{title}"\n\n'
+        'Does the new title cover the SAME SUBJECT as any of the existing articles '
+        '(e.g. same problem, same advice, same topic reworded)? '
+        'Reply with exactly "yes" or "no".'
+    )
+    answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=1024).lower()
+    return answer.strip().startswith('yes')
+
+
+def generate_topic(niche, tone, language, model, api_base, category=None, avoid_titles=None):
     prompt = (
         f"Give me 1 viral blog post title about {niche} in the language '{language}'. "
-        f"The tone should be {tone}. Just the title, no quotes."
+        f"IMPORTANT: '{niche}' means cats, the animals (felines). NEVER write about "
+        f"chatting, online chat, messaging, group chats, conversations, or the internet. "
+        f"Always about cats and cat care. The tone should be {tone}. "
     )
+    if category:
+        prompt += (
+            f"The title must be specifically about the category '{category}' "
+            f"({category} of cats). "
+        )
+    if avoid_titles:
+        prompt += (
+            "Choose a DIFFERENT subject than these already-published titles: "
+            + '; '.join(avoid_titles)
+            + '. '
+        )
+    prompt += "Just the title, no quotes."
     return deepseek_chat(prompt, model, api_base, temperature=0.9, max_tokens=1024)
 
 
@@ -166,16 +201,6 @@ def review_content(title, content, language, model, api_base):
     return deepseek_chat(
         prompt, model, api_base, temperature=0.3, max_tokens=6000, thinking={'type': 'disabled'}
     )
-
-
-def generate_category(title, model, api_base):
-    choices = ', '.join(CATEGORIES)
-    prompt = (
-        f'Classify the blog post title "{title}" into exactly one category. '
-        f'Pick from: {choices}. Reply with only the category name, nothing else.'
-    )
-    category = deepseek_chat(prompt, model, api_base, temperature=0.2, max_tokens=1024).strip()
-    return category if category in CATEGORIES else 'Mode de vie'
 
 
 def strip_emojis(text):
@@ -233,11 +258,12 @@ def generate_svg(title, niche):
     return f"/images/{filename}"
 
 
-def save_post(title, content, hero_image, category):
+def save_post(title, content, hero_image, category, date_str=None):
     slug = slugify(title)
     filename = f"{slug}.md"
     filepath = os.path.join(BLOG_CONTENT_DIR, filename)
-    date_str = datetime.datetime.now().strftime('%Y-%m-%d')
+    if date_str is None:
+        date_str = datetime.datetime.now().strftime('%Y-%m-%d')
 
     frontmatter = f"""---
 title: "{title}"
@@ -280,36 +306,63 @@ def main():
     existing = existing_titles()
     print(f"Existing articles: {len(existing)}")
 
-    try:
-        # 1. Title with deduplication (up to 5 attempts)
-        title = None
-        for attempt in range(5):
-            candidate = generate_topic(niche, tone, language, model, api_base)
-            if not is_duplicate(candidate, existing):
+    count = args.count
+    days = args.days
+    print(f"Generating {count} article(s), dates spread over {days} day(s)")
+
+    now = datetime.datetime.now()
+    for idx in range(count):
+        print(f"\n--- Article {idx + 1}/{count} ---")
+
+        # Rotate over categories to keep the blog balanced
+        category = CATEGORIES[idx % len(CATEGORIES)]
+        print(f"Forced category: {category}")
+
+        # Titles already published in this category (for subject dedup)
+        cat_titles = [t for t, c in existing if c == category]
+
+        # pubDate: spread backwards over N days, oldest first then newest last
+        if days > 1 and count > 1:
+            offset = round((days - 1) * idx / max(count - 1, 1))
+        else:
+            offset = 0
+        pub_date = (now - datetime.timedelta(days=offset)).strftime('%Y-%m-%d')
+
+        try:
+            # 1. Title with deduplication (word similarity + semantic, up to 5 attempts)
+            title = None
+            for attempt in range(5):
+                candidate = generate_topic(
+                    niche, tone, language, model, api_base,
+                    category=category, avoid_titles=cat_titles,
+                )
+                if is_duplicate(candidate, [t for t, _ in existing]):
+                    print(f"Title too close to an existing article ({candidate!r}). Retrying...")
+                    continue
+                if is_semantic_duplicate(candidate, category, cat_titles, model, api_base):
+                    print(f"Title duplicates an existing subject ({candidate!r}). Retrying...")
+                    continue
                 title = candidate
                 break
-            print(f"Title too close to an existing article ({candidate!r}). Retrying...")
-        if title is None:
-            raise RuntimeError('Could not generate a unique title after retries')
-        title = strip_emojis(title).strip()
-        print(f"Generated Title: {title}")
+            if title is None:
+                raise RuntimeError('Could not generate a unique title after retries')
+            title = strip_emojis(title).strip()
+            print(f"Generated Title: {title}")
 
-        # 2. Content with length check + editorial review
-        content = generate_content(title, tone, language, model, api_base)
-        reviewed = review_content(title, content, language, model, api_base)
-        print(f"Content reviewed ({word_count(reviewed)} words).")
+            # 2. Content with length check + editorial review
+            content = generate_content(title, tone, language, model, api_base)
+            reviewed = review_content(title, content, language, model, api_base)
+            print(f"Content reviewed ({word_count(reviewed)} words).")
 
-        category = generate_category(title, model, api_base)
-        print(f"Category: {category}")
+            hero_image = generate_svg(title, niche)
+            print(f"Generated image: {hero_image}")
 
-        hero_image = generate_svg(title, niche)
-        print(f"Generated image: {hero_image}")
+            save_post(title, reviewed, hero_image, category, date_str=pub_date)
+            existing.append((title, category))
 
-        save_post(title, reviewed, hero_image, category)
-
-    except Exception as e:
-        print(f"CRITICAL ERROR: {e}")
-        sys.exit(1)
+        except Exception as e:
+            print(f"CRITICAL ERROR: {e}")
+            sys.exit(1)
 
 
 if __name__ == "__main__":

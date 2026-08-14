@@ -27,7 +27,7 @@ La clé API va dans `.env` (`DEEPSEEK_API_KEY=sk-...`).
 ## Critères de génération d'un article
 
 Pour chaque article, le moteur applique :
-1. **Titre unique** : dédoublonnage automatique (similarité avec les articles existants, 5 tentatives max), emojis supprimés
+1. **Titre unique** : dédoublonnage automatique en 2 niveaux (similarité de mots sur tous les articles + contrôle sémantique IA sur les articles de la même catégorie), emojis supprimés
 2. **Contenu** : ~1200 mots visés, minimum 800 mots vérifiés (régénération si trop court), format Markdown avec titres h2/h3, en français
 3. **Relecture éditoriale** : correction orthographe/grammaire, suppression des répétitions et du remplissage, avant publication
 4. **Catégorie** : classée parmi 5 fixes (Comportement, Sante & Soins, Nutrition, Races, Mode de vie)

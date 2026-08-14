@@ -10,7 +10,7 @@ Blog auto-généré sur le VPS, sans dépendance GitHub/Firebase/externes (sauf 
 - **Emojis** : le modèle met parfois des emojis dans les titres. `strip_emojis()` les retire au titre ET au slug.
 - **Catégories** : 5 fixes (Comportement, Sante & Soins, Nutrition, Races, Mode de vie). Le moteur les choisit via DeepSeek et les stocke dans le frontmatter (`category`). Pages : `/categories/` et `/categories/[cat]/`. Accent/`&` encodés dans les URLs via `encodeURIComponent`.
 - **Facebook** : page `https://www.facebook.com/nous.aimons.les.chats` centralisée dans `consts.ts` (`FACEBOOK_URL`), lien icône dans le Header, bouton partage `sharer.php` dans les articles.
-- **Contrôles qualité** du moteur : dédoublonnage des titres (`is_duplicate`, similarité Jaccard sur mots >= 0.55, 5 tentatives), longueur minimale vérifiée (>= 800 mots, régénération si trop court), relecture éditoriale (`review_content` avec thinking désactivé).
+- **Contrôles qualité** du moteur : dédoublonnage des titres double niveau — (1) Jaccard sur mots (`is_duplicate`, >= 0.55) sur TOUS les articles, (2) contrôle sémantique IA (`is_semantic_duplicate`, température 0) comparant le sujet avec les titres de la MÊME catégorie ; le titre est généré avec le contexte `avoid_titles` des articles de sa catégorie. 5 tentatives. Longueur minimale vérifiée (>= 800 mots), relecture éditoriale (`review_content` avec thinking désactivé). `existing_titles()` retourne des tuples (titre, catégorie).
 - **Slugify** : normalise les accents (`NFKD` → ASCII) avant le slug, sinon des noms de fichiers/URLs avec accents (`honnêtement`) casse les routes.
 - **Vhost Nginx** : `ecole` est `default_server` (`server_name _`) et capture tout. Le vhost `blog` matche `server_name 62.171.132.178`. Après modif de config, toujours `sudo systemctl reload nginx` sinon l'ancienne config reste active.
 - **BASE_URL Astro** : avec `base: '/'`, `import.meta.env.BASE_URL` vaut `/` → `${BASE_URL}/blog` produit `//blog` (URL protocole-relatif, casse les routes). Toujours passer par le helper `url()` de `consts.ts`.
@@ -29,4 +29,4 @@ Blog auto-généré sur le VPS, sans dépendance GitHub/Firebase/externes (sauf 
 ## Reste à faire
 - Activer le timer systemd (avec accord).
 - Sécuriser : domaine + TLS (Certbot).
-- `npm audit` : 16 vulnérabilités signalées dans les dépendances Astro (à revoir).
+- Migration Astro 5 -> 7 (+ sharp 0.35) pour éliminer les 4 dernières vulnérabilités npm (non exploitables en site statique — XSS/SSR nécessitent du contenu non fiable, inutilisé). `npm audit fix` a déjà corrigé 12/16.
