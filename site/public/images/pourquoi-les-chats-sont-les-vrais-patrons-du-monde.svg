@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B5651D"/>
+      <stop offset="1" stop-color="#C88A5A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="1050" cy="90" r="220" fill="#40352F" opacity="0.35"/>
+  <circle cx="140" cy="560" r="260" fill="#40352F" opacity="0.25"/>
+  <text x="70" y="220" font-family="Georgia, serif" font-size="40" fill="#ffffff" opacity="0.85">chats</text>
+  <text x="70" y="340" font-family="Georgia, serif" font-size="58" font-weight="bold" fill="#ffffff">Pourquoi les chats sont les vrais patrons du monde (et on les laisse faire)</text>
+</svg>

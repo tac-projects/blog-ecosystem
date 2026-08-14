@@ -1,0 +1,158 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { url } from '../consts';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage, category } = Astro.props;
+const pageURL = new URL(Astro.url.pathname, Astro.site).toString();
+const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageURL)}`;
+---
+
+<html lang="fr">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article class="article">
+				{heroImage && (
+					<img class="article-cover" width={1020} height={510} src={heroImage} alt="" />
+				)}
+				<header class="article-header">
+					<FormattedDate date={pubDate} class="article-date" />
+					{
+						category && (
+							<a href={url(`categories/${encodeURIComponent(category)}`)} class="badge">
+								{category}
+							</a>
+						)
+					}
+					{
+						updatedDate && (
+							<p class="article-updated">Mis à jour le <FormattedDate date={updatedDate} /></p>
+						)
+					}
+					<h1>{title}</h1>
+				</header>
+				<div class="prose">
+					<slot />
+				</div>
+				<footer class="share">
+					<span class="share-label">Partager cet article :</span>
+					<a class="share-btn" href={fbShareURL} target="_blank" rel="noopener">
+						Partager sur Facebook
+					</a>
+				</footer>
+			</article>
+		</main>
+		<Footer />
+		<style>
+			.article {
+				max-width: 760px;
+				margin: 0 auto;
+				background: var(--card);
+				border: 1px solid var(--accent-soft);
+				border-radius: 12px;
+				padding: 2.5rem;
+				box-shadow: 0 2px 12px rgba(45, 35, 32, 0.07);
+			}
+			.article-cover {
+				width: 100%;
+				aspect-ratio: 16/9;
+				object-fit: cover;
+				border-radius: 8px;
+				box-shadow: 0 6px 20px rgba(45, 35, 32, 0.12);
+			}
+			.article-header {
+				padding: 1.75rem 0 0.5rem;
+			}
+			.article-date {
+				font-size: 0.9rem;
+				color: var(--accent);
+				font-weight: 500;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+			.article-updated {
+				margin: 0.25rem 0 0;
+				font-size: 0.85rem;
+				color: var(--text-soft);
+				font-style: italic;
+			}
+			.badge {
+				display: inline-block;
+				background: var(--bg);
+				border: 1px solid var(--accent-soft);
+				color: var(--accent-dark);
+				font-size: 0.85rem;
+				font-weight: 600;
+				padding: 0.25em 1em;
+				border-radius: 999px;
+				margin-top: 0.75rem;
+				text-decoration: none;
+			}
+			.badge:hover {
+				background: var(--accent);
+				color: #fff;
+			}
+			.share {
+				margin-top: 2.5rem;
+				padding-top: 1.5rem;
+				border-top: 1px solid var(--accent-soft);
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				flex-wrap: wrap;
+			}
+			.share-label {
+				font-weight: 600;
+				color: var(--title);
+			}
+			.share-btn {
+				display: inline-block;
+				background: var(--accent);
+				color: #fff;
+				font-weight: 600;
+				text-decoration: none;
+				padding: 0.55em 1.4em;
+				border-radius: 999px;
+				transition: background 0.2s ease;
+				cursor: pointer;
+			}
+			.share-btn:hover {
+				background: var(--accent-dark);
+			}
+			.article-header h1 {
+				margin: 0.75rem 0 0;
+				font-size: 2.4em;
+				line-height: 1.2;
+			}
+			.prose {
+				padding-top: 1rem;
+			}
+			.prose h2 {
+				margin-top: 2em;
+				margin-bottom: 0.75em;
+			}
+			.prose h3 {
+				margin-top: 1.5em;
+			}
+			.prose a {
+				text-decoration: none;
+				border-bottom: 2px solid var(--accent);
+			}
+			.prose blockquote {
+				background: var(--bg);
+				border-radius: 0 12px 12px 0;
+				padding: 1rem 1.25rem;
+			}
+		</style>
+	</body>
+</html>

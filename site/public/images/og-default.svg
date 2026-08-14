@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C0673C"/>
+      <stop offset="1" stop-color="#8A4222"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="1050" cy="90" r="220" fill="#2D2320" opacity="0.18"/>
+  <circle cx="140" cy="560" r="260" fill="#2D2320" opacity="0.12"/>
+  <text x="70" y="300" font-family="Libre Bodoni, serif" font-size="100" font-weight="bold" fill="#FBF7F0">J'aime les chats</text>
+  <text x="70" y="360" font-family="Public Sans, sans-serif" font-size="32" fill="#F5EEE4">Le blog de la communauté des amoureux des chats</text>
+</svg>

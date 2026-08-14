@@ -1,9 +1,10 @@
 {
-  "blogName": "Chat Essai Titre",
-  "githubRepo": "tac-projects/blog-ecosystem",
+  "blogName": "J'aime les chats",
   "niche": "chats",
   "language": "Français",
   "tone": "Casual",
+  "model": "deepseek-v4-flash",
+  "apiBase": "https://api.deepseek.com",
   "automationActive": false,
   "publishTime": "08:00"
 }

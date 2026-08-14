@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, url } from '../../consts';
+
+const posts = await getCollection('blog');
+const counts = new Map();
+for (const post of posts) {
+	const cat = post.data.category || 'Mode de vie';
+	counts.set(cat, (counts.get(cat) || 0) + 1);
+}
+const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<BaseHead title="Catégories" description={`Les catégories d'articles de ${SITE_TITLE}`} />
+		<style>
+			.section-title {
+				text-align: center;
+				margin-bottom: 2rem;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 1.5rem;
+			}
+			li a {
+				display: block;
+				background: var(--card);
+				border: 1px solid var(--accent-soft);
+				border-radius: 12px;
+				padding: 1.5rem;
+				text-decoration: none;
+				color: inherit;
+				transition:
+					transform 0.25s ease,
+					box-shadow 0.25s ease,
+					border-color 0.25s ease;
+				box-shadow: 0 2px 10px rgba(45, 35, 32, 0.06);
+			}
+			li a:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 10px 28px rgba(45, 35, 32, 0.12);
+				border-color: var(--accent);
+			}
+			li h2 {
+				margin-bottom: 0.25rem;
+			}
+			li p {
+				margin: 0;
+				color: var(--text-soft);
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section>
+				<h1 class="section-title">Catégories</h1>
+				<ul>
+					{categories.map(([cat, count]) => (
+						<li>
+							<a href={url(`categories/${encodeURIComponent(cat)}`)}>
+								<h2>{cat}</h2>
+								<p>
+									{count} article{count > 1 ? 's' : ''}
+								</p>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

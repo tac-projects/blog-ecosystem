@@ -1,0 +1,198 @@
+@font-face {
+	font-family: "Libre Bodoni";
+	src: url("/fonts/librebodoni-400.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Libre Bodoni";
+	src: url("/fonts/librebodoni-600.woff2") format("woff2");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Libre Bodoni";
+	src: url("/fonts/librebodoni-700.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Public Sans";
+	src: url("/fonts/publicsans-400.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Public Sans";
+	src: url("/fonts/publicsans-500.woff2") format("woff2");
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Public Sans";
+	src: url("/fonts/publicsans-700.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--accent: #c0673c;
+	--accent-dark: #8a4222;
+	--accent-soft: #eadfd2;
+	--bg: #fbf7f0;
+	--card: #ffffff;
+	--title: #2d2320;
+	--text: #40352f;
+	--text-soft: #6b5d55;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: "Public Sans", sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	background: var(--bg);
+	color: var(--text);
+	font-size: 18px;
+	line-height: 1.75;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+main {
+	width: 960px;
+	max-width: calc(100% - 2em);
+	margin: auto;
+	padding: 3em 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5rem 0;
+	color: var(--title);
+	line-height: 1.25;
+	font-family: "Libre Bodoni", serif;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+h1 {
+	font-size: 2.6em;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+h3 {
+	font-size: 1.6em;
+}
+
+h4 {
+	font-size: 1.3em;
+}
+
+h5 {
+	font-size: 1.15em;
+}
+
+strong,
+b {
+	font-weight: 700;
+}
+
+a {
+	color: var(--accent);
+	transition: color 0.2s ease;
+}
+
+a:hover {
+	color: var(--accent-dark);
+}
+
+p {
+	margin-bottom: 1em;
+}
+
+.prose p {
+	margin-bottom: 1.75em;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 10px;
+}
+
+code {
+	padding: 2px 5px;
+	background-color: var(--accent-soft);
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+pre {
+	padding: 1.5em;
+	border-radius: 10px;
+	overflow-x: auto;
+	background: #2d2320;
+	color: #fbf7f0;
+}
+
+pre > code {
+	all: unset;
+}
+
+blockquote {
+	border-left: 4px solid var(--accent);
+	padding: 0 0 0 20px;
+	margin: 0;
+	font-size: 1.15em;
+	color: var(--text-soft);
+	font-style: italic;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid var(--accent-soft);
+}
+
+@media (max-width: 720px) {
+	body {
+		font-size: 17px;
+	}
+	main {
+		padding: 1.5em 1em;
+	}
+}
+
+.sr-only {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px 1px 1px 1px);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}

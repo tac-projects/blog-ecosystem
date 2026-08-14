@@ -1,0 +1,222 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, url } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const [featured, ...rest] = posts;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<h1 class="hero-title">{SITE_TITLE}</h1>
+				<p class="hero-desc">{SITE_DESCRIPTION}</p>
+			</section>
+
+			{featured && (
+				<section class="featured-section">
+					<a href={url(`blog/${featured.id}/`)} class="featured">
+						{featured.data.heroImage && (
+							<img src={featured.data.heroImage} alt="" width={1020} height={510} />
+						)}
+						<div class="featured-body">
+							<span class="featured-tag">Dernier article</span>
+							<h2>{featured.data.title}</h2>
+							<p class="featured-excerpt">{featured.data.description}</p>
+						</div>
+					</a>
+				</section>
+			)}
+
+			<section>
+				<ul class="grid">
+					{rest.map((post) => (
+						<li class="card">
+							<a href={url(`blog/${post.id}/`)} class="card-link">
+								{post.data.heroImage && (
+									<img
+										width={720}
+										height={360}
+										src={post.data.heroImage}
+										alt=""
+										loading="lazy"
+									/>
+								)}
+								<div class="card-body">
+									<FormattedDate date={post.data.pubDate} class="date" />
+									{post.data.category && (
+										<span class="badge">{post.data.category}</span>
+									)}
+									<h4>{post.data.title}</h4>
+									<p class="excerpt">{post.data.description}</p>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+		</main>
+		<Footer />
+		<style>
+			.hero {
+				text-align: center;
+				padding: 1.5rem 0 3rem;
+				border-bottom: 1px solid var(--accent-soft);
+				margin-bottom: 2.5rem;
+			}
+			.hero-title {
+				font-size: 3.2em;
+				margin-bottom: 0.25em;
+			}
+			.hero-desc {
+				color: var(--text-soft);
+				font-size: 1.15rem;
+				max-width: 640px;
+				margin: 0 auto;
+			}
+			.featured-section {
+				margin-bottom: 2.5rem;
+			}
+			.featured {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				background: var(--card);
+				border: 1px solid var(--accent-soft);
+				border-radius: 12px;
+				overflow: hidden;
+				text-decoration: none;
+				color: inherit;
+				box-shadow: 0 2px 12px rgba(45, 35, 32, 0.08);
+				transition:
+					transform 0.25s ease,
+					box-shadow 0.25s ease;
+				cursor: pointer;
+			}
+			.featured:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 12px 32px rgba(45, 35, 32, 0.14);
+			}
+			.featured img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			.featured-body {
+				padding: 2rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			.featured-tag {
+				display: inline-block;
+				align-self: flex-start;
+				background: var(--accent);
+				color: #fff;
+				font-family: "Public Sans", sans-serif;
+				font-size: 0.75rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+				padding: 0.3em 0.9em;
+				border-radius: 999px;
+				margin-bottom: 1rem;
+			}
+			.featured-excerpt {
+				color: var(--text-soft);
+				margin: 0;
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 1.5rem;
+				list-style: none;
+				padding: 0;
+			}
+			.card {
+				background: var(--card);
+				border: 1px solid var(--accent-soft);
+				border-radius: 12px;
+				overflow: hidden;
+				box-shadow: 0 2px 10px rgba(45, 35, 32, 0.06);
+				transition:
+					transform 0.25s ease,
+					box-shadow 0.25s ease,
+					border-color 0.25s ease;
+			}
+			.card:hover {
+				transform: translateY(-3px);
+				box-shadow: 0 10px 28px rgba(45, 35, 32, 0.12);
+				border-color: var(--accent);
+			}
+			.card-link {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				text-decoration: none;
+				color: inherit;
+				cursor: pointer;
+			}
+			.card img {
+				width: 100%;
+				aspect-ratio: 16/9;
+				object-fit: cover;
+				border-radius: 0;
+			}
+			.card-body {
+				padding: 1.25rem;
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+			}
+			.card h4 {
+				margin: 0.4rem 0 0.5rem;
+			}
+			.excerpt {
+				color: var(--text-soft);
+				font-size: 0.95rem;
+				margin: 0;
+			}
+			.date {
+				font-size: 0.82rem;
+				color: var(--accent);
+				font-weight: 500;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+			.badge {
+				display: inline-block;
+				align-self: flex-start;
+				background: var(--bg);
+				border: 1px solid var(--accent-soft);
+				color: var(--accent-dark);
+				font-size: 0.78rem;
+				font-weight: 600;
+				padding: 0.2em 0.8em;
+				border-radius: 999px;
+				margin: 0.4rem 0;
+			}
+			@media (max-width: 720px) {
+				.featured {
+					grid-template-columns: 1fr;
+				}
+				.featured img {
+					aspect-ratio: 16/9;
+					height: auto;
+				}
+			}
+		</style>
+	</body>
+</html>

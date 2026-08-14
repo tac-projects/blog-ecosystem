@@ -1,1 +1,1 @@
-google-generativeai
+# No external dependencies — stdlib only
