@@ -133,7 +133,7 @@ def is_semantic_duplicate(title, category, existing_titles, model, api_base):
         '(e.g. same problem, same advice, same topic reworded)? '
         'Reply with exactly "yes" or "no".'
     )
-    answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=1024).lower()
+    answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=2048).lower()
     return answer.strip().startswith('yes')
 
 
@@ -176,7 +176,7 @@ def generate_topic(niche, tone, language, model, api_base, category=None, avoid_
             + '. '
         )
     prompt += "Just the title, no quotes."
-    return deepseek_chat(prompt, model, api_base, temperature=0.9, max_tokens=1024)
+    return deepseek_chat(prompt, model, api_base, temperature=0.9, max_tokens=4096)
 
 
 def word_count(text):
@@ -244,7 +244,10 @@ def generate_content(title, tone, language, model, api_base, min_words=800, targ
         - Do NOT wrap in markdown code blocks.
         - The article must be at least {min_words} words long.
         """
-        content = deepseek_chat(prompt, model, api_base, temperature=0.8, max_tokens=2500)
+        content = deepseek_chat(
+            prompt, model, api_base, temperature=0.8, max_tokens=8000,
+            thinking={'type': 'disabled'},
+        )
         words = word_count(content)
         print(f"Content generated ({words} words).")
         if words >= min_words and validate_structure(content):
@@ -350,7 +353,7 @@ def strip_leading_duplicate_title(content, title, model=None, api_base=None):
             'Does the heading restate the SAME TITLE (same idea, reworded)? '
             'Reply with exactly "yes" or "no".'
         )
-        answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=1024).lower()
+        answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=2048).lower()
         if answer.strip().startswith('yes'):
             rest = stripped[line_end + 1:] if line_end != -1 else ''
             return rest.lstrip('\n')
