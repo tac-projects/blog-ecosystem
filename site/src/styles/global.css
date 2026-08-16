@@ -968,6 +968,12 @@ body > footer {
 	margin-bottom: 2.5rem;
 }
 
+.more-wrap {
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+}
+
 .featured {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

@@ -12,6 +12,7 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const [featured, ...rest] = posts;
+const latest = rest.slice(0, 4);
 ---
 
 <!doctype html>
@@ -64,8 +65,11 @@ const [featured, ...rest] = posts;
 
 			<section>
 				<ul class="grid">
-					{rest.map((post) => <PostCard post={post} />)}
+					{latest.map((post) => <PostCard post={post} />)}
 				</ul>
+				<div class="more-wrap">
+					<a class="btn" href={url('blog')}>Voir nos autres articles</a>
+				</div>
 			</section>
 
 			<CommunityBlock />
