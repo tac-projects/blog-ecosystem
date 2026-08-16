@@ -16,6 +16,7 @@ interface Props {
 	category?: string;
 	related?: CollectionEntry<'blog'>[];
 	showShare?: boolean;
+	showCommunity?: boolean;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
 	category,
 	related = [],
 	showShare = true,
+	showCommunity = true,
 } = Astro.props;
 const pageURL = new URL(Astro.url.pathname, Astro.site).toString();
 const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageURL)}`;
@@ -92,7 +94,7 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 						</ul>
 					</section>
 				)}
-				<CommunityBlock />
+				{showCommunity && <CommunityBlock />}
 			</div>
 		</main>
 
