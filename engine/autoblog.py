@@ -163,9 +163,9 @@ def word_count(text):
     return len(text.split())
 
 
-def validate_structure(content):
+def validate_structure(content, min_sections=3, max_sections=10):
     """Check the article matches the uniform format:
-    intro (no heading) + exactly 4 '## ' sections + conclusion (no heading).
+    intro (no heading) + 3-10 '## ' sections (adapted to the subject) + conclusion.
 
     Returns True if the structure is respected, False otherwise.
     """
@@ -176,7 +176,7 @@ def validate_structure(content):
         return False
 
     h2_indexes = [i for i, l in enumerate(lines) if l.startswith('## ')]
-    if len(h2_indexes) != 4:
+    if not (min_sections <= len(h2_indexes) <= max_sections):
         return False
 
     # Intro must exist BEFORE the first h2 (non-empty, no heading).
@@ -201,7 +201,10 @@ def generate_content(title, tone, language, model, api_base, min_words=800, targ
 
         STRICT STRUCTURE — follow this EXACT structure, no exceptions:
         1. An engaging intro paragraph (2-3 sentences, NO heading, no '##').
-        2. EXACTLY 4 sections, each with a '## ' heading followed by 2-3 short paragraphs.
+        2. Between 3 and 10 sections, each with a '## ' heading followed by 2-3 short
+           paragraphs. Choose the number of sections adapted to the subject:
+           a listicle ("top 10", "7 things") gets one section per item (up to 10);
+           a classic analysis article gets 4-5 sections.
            Headings must be descriptive and not repeat the article title.
         3. A short conclusion paragraph (NO heading).
 
@@ -219,7 +222,7 @@ def generate_content(title, tone, language, model, api_base, min_words=800, targ
         if words < min_words:
             print(f"Too short ({words} words < {min_words}). Regenerating...")
         else:
-            print("Structure does not match (intro + 4 x h2 + conclusion). Regenerating...")
+            print("Structure does not match (intro + 3-10 x h2 + conclusion). Regenerating...")
     raise RuntimeError(f'Content failed validation after retries ({words} words)')
 
 
