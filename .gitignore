@@ -13,6 +13,10 @@ Thumbs.db
 !*.example
 *.local
 
+# State
+.fb_state.json
+.pexels_state.json
+
 # Build
 dist/
 build/

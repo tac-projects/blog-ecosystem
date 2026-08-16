@@ -1,0 +1,91 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import { url } from '../consts';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<li class="card">
+	<a href={url(`blog/${post.id}/`)} class="card-link">
+		{post.data.heroImage && (
+			<img width={720} height={360} src={post.data.heroImage} alt="" loading="lazy" />
+		)}
+		<div class="card-body">
+			<FormattedDate date={post.data.pubDate} class="date" />
+			{post.data.category && <span class="badge">{post.data.category}</span>}
+			<h4>{post.data.title}</h4>
+			<p class="excerpt">{post.data.description}</p>
+		</div>
+	</a>
+</li>
+<style>
+	.card {
+		background: var(--card);
+		border: 1px solid var(--accent-soft);
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 2px 10px rgba(45, 35, 32, 0.06);
+		transition:
+			transform 0.25s ease,
+			box-shadow 0.25s ease,
+			border-color 0.25s ease;
+	}
+	.card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 10px 28px rgba(45, 35, 32, 0.12);
+		border-color: var(--accent);
+	}
+	.card-link {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		text-decoration: none;
+		color: inherit;
+		cursor: pointer;
+	}
+	.card img {
+		width: 100%;
+		aspect-ratio: 16/9;
+		object-fit: cover;
+		border-radius: 0;
+	}
+	.card-body {
+		padding: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
+	.card h4 {
+		margin: 0.4rem 0 0.5rem;
+		font-size: 1.1em;
+	}
+	.excerpt {
+		color: var(--text-soft);
+		font-size: 0.95rem;
+		margin: 0;
+	}
+	.date {
+		font-size: 0.82rem;
+		color: var(--accent);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+	.badge {
+		display: inline-block;
+		align-self: flex-start;
+		background: var(--bg);
+		border: 1px solid var(--accent-soft);
+		color: var(--accent-dark);
+		font-size: 0.78rem;
+		font-weight: 600;
+		padding: 0.2em 0.8em;
+		border-radius: 999px;
+		margin: 0.4rem 0;
+	}
+</style>

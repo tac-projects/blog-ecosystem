@@ -12,8 +12,9 @@ BLOG_DIR = os.path.join(PROJECT_DIR, 'site/src/content/blog')
 SERVICE_NAME = 'blog-autoblog.service'
 SENSITIVE_KEYS = {'DEEPSEEK_API_KEY', 'apiKey', 'api_key'}
 
-EDITABLE_KEYS = {'niche', 'language', 'tone', 'model', 'apiBase', 'publishTime', 'automationActive'}
-BOOLEAN_KEYS = {'automationActive'}
+EDITABLE_KEYS = {'niche', 'language', 'tone', 'model', 'apiBase', 'publishTime', 'automationActive',
+                 'siteUrl', 'facebookEnabled', 'facebookPageId'}
+BOOLEAN_KEYS = {'automationActive', 'facebookEnabled'}
 
 
 def load_config():
@@ -62,6 +63,9 @@ def cmd_status(config):
     print(f"ton              : {config.get('tone')}")
     print(f"modèle IA        : {config.get('model')}")
     print(f"heure de publi.  : {config.get('publishTime')}")
+    print(f"Facebook         : {'activé' if config.get('facebookEnabled') else 'désactivé'} "
+          f"(page {config.get('facebookPageId')})")
+    print(f"site URL         : {config.get('siteUrl')}")
     print(f"timer systemd    : {timer_state()}")
     if post:
         print(f"dernier article  : {post[0]} ({post[1]})")

@@ -9,6 +9,8 @@ import datetime
 import urllib.request
 import urllib.parse
 
+from images import generate_photo
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(BASE_DIR)
 BLOG_CONTENT_DIR = os.path.join(PROJECT_DIR, 'site/src/content/blog')
@@ -354,7 +356,12 @@ def main():
             reviewed = review_content(title, content, language, model, api_base)
             print(f"Content reviewed ({word_count(reviewed)} words).")
 
-            hero_image = generate_svg(title, niche)
+            # 3. Hero image: real Pexels photo matching the subject, SVG as fallback
+            hero_image = generate_photo(title, category, niche, model, api_base,
+                                        dry_run=args.dry_run)
+            if hero_image is None and not args.dry_run:
+                print("Image: Pexels unavailable, falling back to generated SVG.")
+                hero_image = generate_svg(title, niche)
             print(f"Generated image: {hero_image}")
 
             save_post(title, reviewed, hero_image, category, date_str=pub_date)

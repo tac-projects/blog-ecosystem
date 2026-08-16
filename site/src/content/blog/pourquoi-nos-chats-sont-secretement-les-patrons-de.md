@@ -3,7 +3,7 @@ title: "Pourquoi nos chats sont secrètement les patrons de la maison (et on les
 description: "Un article pour tous les amoureux des chats : Pourquoi nos chats sont secrètement les patrons de la maison (et on les laisse faire)."
 pubDate: '2026-08-14'
 category: 'Comportement'
-heroImage: '/images/pourquoi-nos-chats-sont-secretement-les-patrons-de.svg'
+heroImage: '/images/pourquoi-nos-chats-sont-secretement-les-patrons-de.jpg'
 ---
 
 # On les nourrit, on change leur litière, on leur cède le canapé… et on trouve ça normal.

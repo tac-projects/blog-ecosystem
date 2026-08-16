@@ -3,7 +3,7 @@ title: "Pourquoi les chats sont les vrais patrons du monde (et on les laisse fai
 description: "Un article pour tous les amoureux des chats : Pourquoi les chats sont les vrais patrons du monde (et on les laisse faire)."
 pubDate: '2026-08-14'
 category: 'Comportement'
-heroImage: '/images/pourquoi-les-chats-sont-les-vrais-patrons-du-monde.svg'
+heroImage: '/images/pourquoi-les-chats-sont-les-vrais-patrons-du-monde.jpg'
 ---
 
 ## Ils n’ont jamais signé de contrat, et pourtant…

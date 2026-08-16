@@ -3,7 +3,7 @@ title: "Mon chat a un bobo ? Voici les gestes qui sauvent (sans stress)"
 description: "Un article pour tous les amoureux des chats : Mon chat a un bobo ? Voici les gestes qui sauvent (sans stress)."
 pubDate: '2026-08-13'
 category: 'Sante & Soins'
-heroImage: '/images/mon-chat-a-un-bobo-voici-les-gestes-qui-sauvent-sa.svg'
+heroImage: '/images/mon-chat-a-un-bobo-voici-les-gestes-qui-sauvent-sa.jpg'
 ---
 
 ## Pourquoi je panique toujours (et pourquoi il ne faut pas)

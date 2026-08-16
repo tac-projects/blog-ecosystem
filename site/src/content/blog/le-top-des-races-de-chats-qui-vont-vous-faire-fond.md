@@ -3,7 +3,7 @@ title: "Le top des races de chats qui vont vous faire fondre (le numéro 2 est i
 description: "Un article pour tous les amoureux des chats : Le top des races de chats qui vont vous faire fondre (le numéro 2 est incroyable)."
 pubDate: '2026-08-02'
 category: 'Races'
-heroImage: '/images/le-top-des-races-de-chats-qui-vont-vous-faire-fond.svg'
+heroImage: '/images/le-top-des-races-de-chats-qui-vont-vous-faire-fond.jpg'
 ---
 
 ## 1. Le Persan : la boule de coton majestueuse

@@ -3,7 +3,7 @@ title: "Ces races de chats tellement adorables qu'on craque instantanément"
 description: "Un article pour tous les amoureux des chats : Ces races de chats tellement adorables qu'on craque instantanément."
 pubDate: '2026-08-10'
 category: 'Races'
-heroImage: '/images/ces-races-de-chats-tellement-adorables-quon-craque.svg'
+heroImage: '/images/ces-races-de-chats-tellement-adorables-quon-craque.jpg'
 ---
 
 Les chats, soyons honnêtes, ils ont un pouvoir secret sur nous. On commence par dire « oh, il est mignon » et cinq minutes plus tard, on est en train de regarder des vidéos de chatons à 3 heures du matin et de chercher des adoptions en ligne. Mais certaines races, elles, ont un truc en plus. Un petit je-ne-sais-quoi qui fait qu’on craque *instantanément*, sans réfléchir. Dans cet article, on va parler de ces races de chats tellement adorables qu’elles méritent leur propre avertissement : attention, risque de crise cardiaque émotionnelle. Préparez vos mouchoirs, vos cœurs et vos appareils photo, car on va en voir de toutes les formes, tailles et pelages.

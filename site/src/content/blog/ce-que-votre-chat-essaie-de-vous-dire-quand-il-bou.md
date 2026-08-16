@@ -3,7 +3,7 @@ title: "Ce que votre chat essaie de vous dire quand il boude ses croquettes (et 
 description: "Un article pour tous les amoureux des chats : Ce que votre chat essaie de vous dire quand il boude ses croquettes (et comment y remédier)."
 pubDate: '2026-08-04'
 category: 'Nutrition'
-heroImage: '/images/ce-que-votre-chat-essaie-de-vous-dire-quand-il-bou.svg'
+heroImage: '/images/ce-que-votre-chat-essaie-de-vous-dire-quand-il-bou.jpg'
 ---
 
 ## Pourquoi votre chat fait-il la tête à ses croquettes ?

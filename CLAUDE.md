@@ -3,14 +3,17 @@
 Doc utilisateur complète : `README_ECOSYSTEM.md`.
 
 ## Objectif
-Blog auto-généré sur le VPS, sans dépendance GitHub/Firebase/externes (sauf l'IA DeepSeek).
+Blog auto-généré sur le VPS. Les dépendances externes (API d'images, bibliothèques Python/Node, etc.) sont autorisées si nécessaire — noter chaque ajout dans `engine/requirements.txt` / `site/package.json`.
 
 ## Pièges connus
 - **DeepSeek v4 Flash en mode "thinking"** : avec `max_tokens` trop petit (<512), `content` revient vide et tout part dans `reasoning_content`. Toujours garder `max_tokens` >= 1024 pour le titre. Ne JAMAIS fallback sur `reasoning_content` (pollue la sortie). `deepseek_chat` a un retry auto sur contenu vide (parfois le raisonnement consomme tout le budget). **Pour une longue réécriture (relecture), passer `thinking={'type': 'disabled'}` + `max_tokens` >= 6000**, sinon le modèle raisonne indéfiniment (des dizaines de milliers de caractères de `reasoning_content`) et ne produit jamais `content`.
 - **Emojis** : le modèle met parfois des emojis dans les titres. `strip_emojis()` les retire au titre ET au slug.
 - **Catégories** : 5 fixes (Comportement, Sante & Soins, Nutrition, Races, Mode de vie). Le moteur les choisit via DeepSeek et les stocke dans le frontmatter (`category`). Pages : `/categories/` et `/categories/[cat]/`. Accent/`&` encodés dans les URLs via `encodeURIComponent`.
-- **Facebook** : page `https://www.facebook.com/nous.aimons.les.chats` centralisée dans `consts.ts` (`FACEBOOK_URL`). Lien icône dans le Header, bouton partage `sharer.php` + bloc `CommunityBlock` ("Rejoignez la communauté") sur les articles et l'accueil. Open Graph complet (og:type article, article:published_time, article:section) pour des cartes FB riches lors du partage. Pas d'auto-publication (dépendance API FB + risque de sanction, à réévaluer plus tard).
-- **Référencement désactivé** : `robots.txt` (Disallow: /), meta `noindex, nofollow` dans `BaseHead`, sitemap désactivé dans `astro.config.mjs`. Pour réactiver : inverser ces 3 points.
+- **Facebook** : page `https://www.facebook.com/nous.aimons.les.chats` centralisée dans `consts.ts` (`FACEBOOK_URL`). Lien icône dans le Header, bouton partage `sharer.php` + bloc `CommunityBlock` ("Rejoignez la communauté") sur les articles et l'accueil. Open Graph complet (og:type article, article:published_time, article:section) pour des cartes FB riches lors du partage.
+- **Auto-publication Facebook (100% automatique)** : `engine/facebook.py`, exécuté en STEP 4 de `deploy.sh` (après le build, quand l'URL est en ligne). Lit tous les `.md` de `site/src/content/blog`, poste sur la page via la Graph API (`POST /{page}/feed`, stdlib uniquement) ceux qui ne sont pas encore dans `.fb_state.json` (état idempotent → un post qui échoue est retenté au passage suivant). Post = titre + description frontmatter + lien `{siteUrl}/blog/{slug}`. Config : `facebookEnabled`/`facebookPageId`/`siteUrl` dans `blog_config.json` (clés éditables via admin.py), token `FACEBOOK_PAGE_ACCESS_TOKEN` dans `.env` (jamais affiché). Échec API = article publié quand même, erreur loggée, exit 0 (le déploiement n'est jamais bloqué).
+- **Référencement désactivé** : `robots.txt` (Disallow: / pour tout le monde SAUF `facebookexternalhit`/`Facebot` qui ont `Allow: /` pour les aperçus de liens FB), meta `noindex, nofollow` dans `BaseHead`, sitemap désactivé dans `astro.config.mjs`. Pour réactiver : inverser ces 3 points (garder l'exception FB pour les aperçus).
+- **Images og:image** : Facebook refuse le SVG → le moteur télécharge de **vraies photos** via l'API **Pexels** (`engine/images.py`, clé `PEXELS_API_KEY` dans `.env`). DeepSeek génère une requête de recherche anglaise (pense `thinking=disabled`), la photo est recadrée 1200x630 en `.jpg` (`.svg` généré par le moteur en secours si Pexels échoue). `scripts/convert-images.mjs` (node + sharp, STEP 2 de deploy.sh) convertit les `.svg` restants en `.png` (même nom). `BaseHead` pointe `og:image` vers la version `.png` (`.replace(/\.svg$/, '.png')`). `BlogPost.astro` doit passer `image={heroImage}` à `BaseHead` (sinon image par défaut).
+- **Pages légales** : `mentions-legales` et `politique-de-confidentialite` (LCEN/RGPD), liées dans le footer. L'éditeur est une personne privée non monétisée — dès que la monétisation arrive, les mentions légales doivent identifier l'éditeur (nom + adresse).
 - **FB — décision en attente** (Thomas a tranché : ne rien faire pour l'instant) : réflexion sur le CTA — partage de l'article vs rejoindre la communauté. Conclusion de l'analyse : le partage est le levier de croissance (site `noindex` → FB est LA source de trafic), le CTA communauté est un levier de rétention/monétisation secondaire (les lecteurs viennent déjà de la page). Un sticky en bas d'écran, s'il se fait un jour, devrait privilégier le partage plutôt que la communauté. Ne pas implémenter sans en rediscuter.
 - **Contrôles qualité** du moteur : dédoublonnage des titres double niveau — (1) Jaccard sur mots (`is_duplicate`, >= 0.55) sur TOUS les articles, (2) contrôle sémantique IA (`is_semantic_duplicate`, température 0) comparant le sujet avec les titres de la MÊME catégorie ; le titre est généré avec le contexte `avoid_titles` des articles de sa catégorie. 5 tentatives. Longueur minimale vérifiée (>= 800 mots), relecture éditoriale (`review_content` avec thinking désactivé). `existing_titles()` retourne des tuples (titre, catégorie).
 - **Slugify** : normalise les accents (`NFKD` → ASCII) avant le slug, sinon des noms de fichiers/URLs avec accents (`honnêtement`) casse les routes.
@@ -27,11 +30,13 @@ Blog auto-généré sur le VPS, sans dépendance GitHub/Firebase/externes (sauf 
 - `automationActive: false` — génération quotidienne coupée (timer en place mais non activé).
 - Le timer `blog-autoblog.timer` est créé mais `inactive` / `disabled`.
 - Contenu : 12 articles répartis sur les 5 catégories (Comportement 4, autres 2 chacune), dates échelonnées du 01/08 au 14/08/2026. Site en `noindex`.
-- Commit en attente de push : intégration FB renforcée (Open Graph article + bloc CommunityBlock).
+- Auto-publication FB implémentée mais inactive : `facebookEnabled=false`, token `FACEBOOK_PAGE_ACCESS_TOKEN` vide dans `.env` (à remplir par Thomas + création de l'app FB).
+- Commit en attente de push : intégration FB renforcée (Open Graph article + bloc CommunityBlock + auto-publication).
 
 ## Serveur
 - Nginx : vhost `/etc/nginx/sites-available/blog`, root `/var/www/blog-site`.
 - IP publique : 62.171.132.178 (pas de TLS/domaine pour l'instant).
+- **Serveur dev local** : pour un aperçu rapide (hot reload) sans déployer, lancer `npm run dev` dans `site/`. Détacher avec `setsid ... &` (nohup seul peut mourir / `transport was disconnected` quand on kill l'ancien). Redémarrer proprement : `pkill -9 -f "astro dev"` puis `setsid npm run dev -- --port 4321 --host 0.0.0.0 > /tmp/astro-dev.log 2>&1 < /dev/null &`. Vérifier `curl -s -o /dev/null -w "%{http_code}" http://localhost:4321/` (200 = OK). DevToolbar désactivée (`npx astro preferences disable devToolbar`).
 
 ## Reste à faire
 - Activer le timer systemd (avec accord).

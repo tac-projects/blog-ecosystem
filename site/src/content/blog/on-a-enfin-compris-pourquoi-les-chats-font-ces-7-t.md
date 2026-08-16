@@ -3,7 +3,7 @@ title: "On a enfin compris pourquoi les chats font ces 7 trucs bizarres"
 description: "Un article pour tous les amoureux des chats : On a enfin compris pourquoi les chats font ces 7 trucs bizarres."
 pubDate: '2026-08-14'
 category: 'Comportement'
-heroImage: '/images/on-a-enfin-compris-pourquoi-les-chats-font-ces-7-t.svg'
+heroImage: '/images/on-a-enfin-compris-pourquoi-les-chats-font-ces-7-t.jpg'
 ---
 
 ## Les 7 comportements félins enfin décryptés

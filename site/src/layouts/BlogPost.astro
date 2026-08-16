@@ -16,7 +16,7 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 
 <html lang="fr">
 	<head>
-		<BaseHead title={title} description={description} pubDate={pubDate} category={category} />
+		<BaseHead title={title} description={description} pubDate={pubDate} category={category} image={heroImage} />
 	</head>
 
 	<body>
@@ -56,15 +56,15 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 		</main>
 		<Footer />
 		<style>
-			.article {
-				max-width: 760px;
-				margin: 0 auto;
-				background: var(--card);
-				border: 1px solid var(--accent-soft);
-				border-radius: 12px;
-				padding: 2.5rem;
-				box-shadow: 0 2px 12px rgba(45, 35, 32, 0.07);
-			}
+		.article {
+			max-width: 100%;
+			margin: 0 auto;
+			background: var(--card);
+			border: 1px solid var(--accent-soft);
+			border-radius: 12px;
+			padding: 2.5rem;
+			box-shadow: 0 2px 12px rgba(45, 35, 32, 0.07);
+		}
 			.article-cover {
 				width: 100%;
 				aspect-ratio: 16/9;
@@ -74,6 +74,8 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 			}
 			.article-header {
 				padding: 1.75rem 0 0.5rem;
+				max-width: 720px;
+				margin: 0 auto;
 			}
 			.article-date {
 				font-size: 0.9rem;
@@ -112,6 +114,9 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 				align-items: center;
 				gap: 1rem;
 				flex-wrap: wrap;
+				max-width: 720px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 			.share-label {
 				font-weight: 600;
@@ -138,6 +143,8 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 			}
 			.prose {
 				padding-top: 1rem;
+				max-width: 720px;
+				margin: 0 auto;
 			}
 			.prose h2 {
 				margin-top: 2em;

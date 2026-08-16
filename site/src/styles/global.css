@@ -180,7 +180,8 @@ hr {
 		font-size: 17px;
 	}
 	main {
-		padding: 1.5em 1em;
+		padding: 1.5em 0.75em;
+		max-width: calc(100% - 1em);
 	}
 }
 

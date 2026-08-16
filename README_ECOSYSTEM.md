@@ -21,8 +21,39 @@ blog_config.json       Configuration (niche, langue, ton, modèle IA, heure)
 - `model`, `apiBase` : modèle et endpoint DeepSeek (OpenAI-compatible)
 - `automationActive` : active/désactive la génération quotidienne
 - `publishTime` : heure de la génération (timer systemd `blog-autoblog.timer`)
+- `siteUrl` : URL publique du site (utilisée pour les liens Facebook)
+- `facebookEnabled`, `facebookPageId` : auto-publication Facebook
 
 La clé API va dans `.env` (`DEEPSEEK_API_KEY=sk-...`).
+
+## Images des articles (photos réelles)
+
+Chaque article est illustré par une **vraie photo libre** (API Pexels) qui correspond au sujet :
+1. DeepSeek traduit le titre + catégorie en requête de recherche anglaise
+2. `engine/images.py` cherche sur Pexels (clé `PEXELS_API_KEY` dans `.env`), télécharge la photo
+   recadrée 1200x630 en `.jpg`
+3. Si Pexels échoue (pas de clé, erreur réseau), le moteur retombe sur un `.svg` généré
+   (converti en `.png` par `scripts/convert-images.mjs` au déploiement)
+
+L'`og:image` pointe toujours vers un format lisible par Facebook (jpg/png, jamais svg).
+
+## Auto-publication Facebook (100% automatique)
+
+Après chaque déploiement, `deploy.sh` exécute `engine/facebook.py` qui publie sur la page
+Facebook tout nouvel article (`POST /{page}/feed`). Post = titre + description frontmatter + lien.
+L'état est suivi dans `.fb_state.json` (idempotent) : un post qui échoue est retenté au passage
+suivant. Un échec API ne bloque jamais le déploiement (l'article est publié sur le site quand même,
+l'erreur est loggée).
+
+Activation (à faire une fois par Thomas) :
+1. Créer une app Facebook sur developers.facebook.com (type Business)
+2. Ajouter la permission `pages_manage_posts`
+3. Récupérer un **Page access token** (Graph API Explorer : `GET /me/accounts`, token de la page)
+4. Le convertir en token longue durée (60 jours) via `oauth/access_token?grant_type=fb_exchange_token`
+5. Le mettre dans `.env` : `FACEBOOK_PAGE_ACCESS_TOKEN=...` (jamais affiché par la CLI)
+6. Activer : `python3 engine/admin.py config facebookEnabled true`
+
+Le token expire au bout de ~60 jours : renouveler puis mettre à jour `.env`.
 
 ## Critères de génération d'un article
 

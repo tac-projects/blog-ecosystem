@@ -3,7 +3,7 @@ title: "Le dîner de votre chat est nul. Voici comment le rendre irrésistible"
 description: "Un article pour tous les amoureux des chats : Le dîner de votre chat est nul. Voici comment le rendre irrésistible."
 pubDate: '2026-08-11'
 category: 'Nutrition'
-heroImage: '/images/le-diner-de-votre-chat-est-nul-voici-comment-le-re.svg'
+heroImage: '/images/le-diner-de-votre-chat-est-nul-voici-comment-le-re.jpg'
 ---
 
 ## Pourquoi votre chat boude sa gamelle ?

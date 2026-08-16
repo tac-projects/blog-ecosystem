@@ -3,7 +3,7 @@ title: "Pourquoi les chats sont les vrais maîtres du mode de vie (et comment co
 description: "Un article pour tous les amoureux des chats : Pourquoi les chats sont les vrais maîtres du mode de vie (et comment copier leurs secrets)."
 pubDate: '2026-08-01'
 category: 'Mode de vie'
-heroImage: '/images/pourquoi-les-chats-sont-les-vrais-maitres-du-mode-.svg'
+heroImage: '/images/pourquoi-les-chats-sont-les-vrais-maitres-du-mode-.jpg'
 ---
 
 ## H2 : Le secret n°1 : La sieste est un art, pas une paresse

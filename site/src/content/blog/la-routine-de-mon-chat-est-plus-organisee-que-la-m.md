@@ -3,7 +3,7 @@ title: "La routine de mon chat est plus organisée que la mienne (et voici pourq
 description: "Un article pour tous les amoureux des chats : La routine de mon chat est plus organisée que la mienne (et voici pourquoi)."
 pubDate: '2026-08-08'
 category: 'Mode de vie'
-heroImage: '/images/la-routine-de-mon-chat-est-plus-organisee-que-la-m.svg'
+heroImage: '/images/la-routine-de-mon-chat-est-plus-organisee-que-la-m.jpg'
 ---
 
 Ah, l’heure du réveil. Pas le mien, bien sûr. Le sien. À 6h47 précises, chaque matin, mon chat déboule sur le lit avec la ponctualité d’un train suisse. Il s’assoit sur ma poitrine (parce qu’il a un sens aigu du confort), me fixe avec ses grands yeux jaunes et commence à ronronner comme un moteur de voiture de collection. Moi, je cherche mon téléphone en aveugle, je me demande pourquoi j’ai mis le réveil à 7h00 si c’est pour être réveillé par une boule de poils à 6h47, et je réalise que mon existence entière n’est qu’une série de micro-retards mal gérés.

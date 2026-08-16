@@ -1,1 +1,2 @@
-# No external dependencies — stdlib only
+# Dépendances Python du moteur (stdlib + ajouts explicites)
+# Chaque nouvelle dépendance doit être ajoutée ici et installée sur le VPS.
