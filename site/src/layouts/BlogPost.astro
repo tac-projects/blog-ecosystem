@@ -67,8 +67,20 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 						{related.map((p) => (
 							<li class="related-item">
 								<a class="related-link" href={url(`blog/${p.id}/`)}>
-									{p.data.category && <span class="badge">{p.data.category}</span>}
-									<span class="related-name">{p.data.title}</span>
+									{p.data.heroImage && (
+										<img
+											class="related-thumb"
+											width={160}
+											height={90}
+											src={p.data.heroImage}
+											alt=""
+											loading="lazy"
+										/>
+									)}
+									<span class="related-info">
+										{p.data.category && <span class="badge">{p.data.category}</span>}
+										<span class="related-name">{p.data.title}</span>
+									</span>
 								</a>
 							</li>
 						))}

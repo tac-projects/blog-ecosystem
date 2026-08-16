@@ -562,6 +562,7 @@ footer p {
 	background: var(--card);
 	border: 1px solid var(--accent-soft);
 	border-radius: var(--radius-sm);
+	overflow: hidden;
 	transition: border-color var(--transition), transform var(--transition);
 }
 
@@ -574,14 +575,29 @@ footer p {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	padding: 0.75rem 1rem;
+	padding: 0.75rem;
 	text-decoration: none;
 	color: inherit;
 }
 
-.related-link .badge {
-	margin: 0;
+.related-thumb {
+	width: 110px;
+	height: 62px;
 	flex-shrink: 0;
+	object-fit: cover;
+	border-radius: var(--radius-sm);
+}
+
+.related-info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.related-info .badge {
+	margin: 0;
+	align-self: flex-start;
 }
 
 .related-name {
