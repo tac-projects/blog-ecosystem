@@ -212,7 +212,17 @@ def validate_structure(content, min_sections=3, max_sections=10):
     return True
 
 
-def generate_content(title, tone, language, model, api_base, min_words=800, target_words=1200):
+def generate_content(title, tone, language, model, api_base, min_words=800, target_words=1200, existing_links=None):
+    existing_links = existing_links or []
+    link_block = ''
+    if existing_links:
+        link_block = (
+            '\n        INTERNAL LINKS: here are the titles of existing articles on this blog:\n'
+            + '\n'.join(f'        - "{t}" -> /blog/{s}/' for t, s in existing_links)
+            + '\n        Insert 2 natural inline links in the text (markdown [texte](/blog/slug/)) '
+            'to the most topically relevant existing articles. Only link to articles listed '
+            'above, using their exact /blog/slug/ URL. Do not invent URLs.\n'
+        )
     for attempt in range(3):
         prompt = f"""
         Write a {target_words}-word blog post about "{title}".
@@ -227,7 +237,7 @@ def generate_content(title, tone, language, model, api_base, min_words=800, targ
            a classic analysis article gets 4-5 sections.
            Headings must be descriptive and not repeat the article title.
         3. A short conclusion paragraph (NO heading).
-
+        {link_block}
         Rules:
         - Use ONLY '## ' headings (one level). Do NOT use '###'.
         - Do NOT include the title at the start (it will be in frontmatter).
@@ -347,6 +357,43 @@ def strip_leading_duplicate_title(content, title, model=None, api_base=None):
     return content
 
 
+def existing_links():
+    """Return list of (title, slug) for existing posts, usable for inline links."""
+    links = []
+    try:
+        for f in os.listdir(BLOG_CONTENT_DIR):
+            if not f.endswith('.md'):
+                continue
+            slug = f[:-3]
+            with open(os.path.join(BLOG_CONTENT_DIR, f), 'r', encoding='utf-8') as fh:
+                content = fh.read(600)
+            import re
+            title = re.search(r'^title:\s*"?(.+?)"?\s*$', content, re.MULTILINE)
+            if title:
+                links.append((title.group(1).strip(), slug))
+    except FileNotFoundError:
+        pass
+    return links
+
+
+def validate_links(content, valid_slugs):
+    """Replace /blog/ links in the content that point to unknown slugs (None) or keep valid ones.
+    Returns (content, kept_count)."""
+    import re
+    kept = [0]
+
+    def repl(m):
+        slug = m.group(2)
+        if slug in valid_slugs:
+            kept[0] += 1
+            return m.group(0)
+        # link to a non-existent article: drop the markdown link, keep the anchor text
+        return m.group(1)
+
+    new_content = re.sub(r'\[([^\]]+)\]\(/blog/([^)]+)/\)', repl, content)
+    return new_content, kept[0]
+
+
 def save_post(title, content, hero_image, category, date_str=None):
     slug = slugify(title)
     filename = f"{slug}.md"
@@ -444,10 +491,18 @@ def main():
             title = strip_emojis(title).strip()
             print(f"Generated Title: {title}")
 
-            # 2. Content with length check + editorial review
-            content = generate_content(title, tone, language, model, api_base)
+            # 2. Content with length check + editorial review + inline links
+            content = generate_content(
+                title, tone, language, model, api_base,
+                existing_links=existing_links(),
+            )
             reviewed = review_content(title, content, language, model, api_base)
             print(f"Content reviewed ({word_count(reviewed)} words).")
+
+            # Clean inline links: drop any that point to unknown slugs
+            valid_slugs = {slug for _, slug in existing_links()}
+            reviewed, kept = validate_links(reviewed, valid_slugs)
+            print(f"Inline links: {kept} valid, broken removed.")
 
             # 3. Hero image: real Pexels photo matching the subject, SVG as fallback
             hero_image = generate_photo(title, category, niche, model, api_base,
