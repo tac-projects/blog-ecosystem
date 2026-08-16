@@ -13,8 +13,15 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+const allPosts = await getCollection('blog');
+const related = allPosts
+	.filter((p) => p.id !== post.id)
+	.filter((p) => p.data.category === post.data.category)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} related={related}>
 	<Content />
 </BlogPost>

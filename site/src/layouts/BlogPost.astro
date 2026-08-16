@@ -7,9 +7,17 @@ import FormattedDate from '../components/FormattedDate.astro';
 import CommunityBlock from '../components/CommunityBlock.astro';
 import { url } from '../consts';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	heroImage?: string;
+	category?: string;
+	related?: CollectionEntry<'blog'>[];
+}
 
-const { title, description, pubDate, updatedDate, heroImage, category } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category, related = [] } = Astro.props;
 const pageURL = new URL(Astro.url.pathname, Astro.site).toString();
 const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageURL)}`;
 ---
@@ -52,6 +60,21 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 					</a>
 				</footer>
 			</article>
+			{related.length > 0 && (
+				<section class="related">
+					<h2 class="related-title">À lire ensuite</h2>
+					<ul class="related-list">
+						{related.map((p) => (
+							<li class="related-item">
+								<a class="related-link" href={url(`blog/${p.id}/`)}>
+									{p.data.category && <span class="badge">{p.data.category}</span>}
+									<span class="related-name">{p.data.title}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			)}
 			<CommunityBlock />
 		</main>
 		<Footer />

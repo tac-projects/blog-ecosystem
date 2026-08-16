@@ -536,6 +536,63 @@ footer p {
 	color: var(--title);
 }
 
+/* À lire ensuite */
+.related {
+	margin-top: 2.5rem;
+	max-width: 720px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.related-title {
+	font-size: 1.3em;
+	margin-bottom: 1rem;
+}
+
+.related-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.related-item {
+	background: var(--card);
+	border: 1px solid var(--accent-soft);
+	border-radius: var(--radius-sm);
+	transition: border-color var(--transition), transform var(--transition);
+}
+
+.related-item:hover {
+	border-color: var(--accent);
+	transform: translateY(-2px);
+}
+
+.related-link {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	text-decoration: none;
+	color: inherit;
+}
+
+.related-link .badge {
+	margin: 0;
+	flex-shrink: 0;
+}
+
+.related-name {
+	font-weight: 600;
+	line-height: 1.4;
+}
+
+.related-link:hover .related-name {
+	color: var(--accent);
+}
+
 /* Contenu rédigé */
 .prose {
 	padding-top: 1rem;
