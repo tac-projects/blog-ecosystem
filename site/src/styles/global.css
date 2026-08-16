@@ -441,34 +441,113 @@ header nav a.active {
    Footer
    -------------------------------------------------------------------------- */
 body > footer {
-	padding: 2em 1em 4em 1em;
+	padding: 2.5em 1em 1.5em;
 	border-top: 1px solid var(--accent-soft);
 	color: var(--text-soft);
-	text-align: center;
 	font-size: 0.9rem;
 	background: #f5eee4;
+	text-align: left;
 }
 
-footer p {
-	margin: 0 0 0.75em;
+.footer-inner {
+	max-width: 960px;
+	margin: auto;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 2em;
+	flex-wrap: wrap;
+	padding-bottom: 1.75em;
+	border-bottom: 1px solid var(--accent-soft);
+}
+
+.footer-title {
+	margin: 0 0 0.35em;
+	font-family: var(--font-serif);
+	font-weight: 700;
+	font-size: 1.2em;
+	color: var(--title);
+}
+
+.footer-tagline {
+	margin: 0;
+	color: var(--text-soft);
+	max-width: 320px;
+}
+
+.footer-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 1em;
+}
+
+.footer-fb {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	color: var(--accent-dark);
+	font-weight: 600;
+	text-decoration: none;
+	transition: color var(--transition);
+}
+
+.footer-fb:hover {
+	color: var(--accent);
 }
 
 .legal-links {
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
 	gap: 1.5em;
 	flex-wrap: wrap;
 }
 
 .legal-links a {
-	color: var(--accent-dark);
+	color: var(--text-soft);
 	text-decoration: none;
-	border-bottom: 1px solid transparent;
-	transition: border-color var(--transition);
+	transition: color var(--transition);
 }
 
 .legal-links a:hover {
-	border-bottom-color: var(--accent);
+	color: var(--accent);
+}
+
+.footer-copyright {
+	margin: 1.5em auto 0;
+	max-width: 960px;
+	text-align: center;
+	color: var(--text-soft);
+}
+
+@media (max-width: 720px) {
+	.footer-inner {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 1.5em;
+	}
+
+	.footer-brand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.footer-tagline {
+		max-width: 280px;
+	}
+
+	.footer-right {
+		align-items: center;
+		gap: 1em;
+	}
+
+	.legal-links {
+		flex-direction: column;
+		align-items: center;
+		gap: 0.6em;
+	}
 }
 
 /* --------------------------------------------------------------------------
