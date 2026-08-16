@@ -631,6 +631,12 @@ footer p {
 	margin-bottom: 0.75em;
 }
 
+@media (max-width: 720px) {
+	.prose h2 {
+		font-size: 1.5em;
+	}
+}
+
 .prose h3 {
 	margin-top: 1.5em;
 }

@@ -21,7 +21,7 @@ S’il devient agressif quand vous essayez de le sortir de sa cachette, là enco
 
 ## 2. Son appétit change, ou il boit de façon inhabituelle
 
-Attention, ce n’est pas seulement le manque d’appétit qui doit vous alerter. Un chat qui mange beaucoup plus que d’habitude peut aussi être malade. Diabète, hyperthyroïdie, troubles digestifs, tout ça joue sur l’appétit. Et puis il y a la soif. Si vous devez remplir la gamelle d’eau tous les jours, ou si vous le voyez sans arrêt lécher le robinet, ça peut indiquer un problème rénal ou un diabète. C’est un signe très souvent ignoré parce que « au moins il boit ». Oui, mais boire trop n’est jamais anodin chez un chat.
+Attention, ce n’est pas seulement le manque d’appétit qui doit vous alerter. Un chat qui mange beaucoup plus que d’habitude peut aussi être malade. Diabète, hyperthyroïdie, troubles digestifs, tout ça joue sur l’appétit. Et puis il y a la soif. Si vous devez remplir la gamelle d’eau tous les jours, ou si vous le voyez sans arrêt lécher le robinet, ça peut indiquer un problème rénal ou un diabète. C’est un signe très souvent ignoré parce que « au moins il boit ». Oui, mais boire trop n’est jamais anodin chez un chat. Un refus de manger prolongé, lui, mérite toujours qu’on se penche sur [pourquoi votre chat boude ses croquettes](/blog/ce-que-votre-chat-essaie-de-vous-dire-quand-il-bou/).
 
 Le changement d’alimentation est aussi à surveiller. S’il laisse les croquettes mais mange l’herbe à chat, s’il boude sa pâtée habituelle ou semble avoir du mal à mâcher, pensez à un problème dentaire. Les douleurs buccales font souvent baisser l’appétit sans que l’on comprenne pourquoi.
 
@@ -33,7 +33,7 @@ Les cystites, les calculs urinaires et l’insuffisance rénale sont des causes 
 
 ## 4. Son pelage devient terne, gras ou emmêlé
 
-Un chat en bonne santé passe un tiers de sa vie à se lécher. C’est l’hygiène, mais aussi un moyen de se calmer et de réguler sa température. Si votre chat arrête de faire sa toilette, son pelage devient vite terne, piqué, avec des nœuds ou des zones graisseuses. Parfois, au contraire, un chat malade se lèche frénétiquement un endroit précis, au point de se créer des plaies. Cela peut signaler une douleur localisée, des parasites, une allergie ou de l’arthrose.
+Un chat en bonne santé passe un tiers de sa vie à se lécher. C’est l’hygiène, mais aussi un moyen de se calmer et de réguler sa température. Si votre chat arrête de faire sa toilette, son pelage devient vite terne, piqué, avec des nœuds ou des zones graisseuses. Parfois, au contraire, un chat malade se lèche frénétiquement un endroit précis, au point de se créer des plaies. Cela peut signaler une douleur localisée, des parasites, une allergie ou de l’arthrose. Si vous remarquez une plaie, notre guide sur [les bobos du chat](/blog/mon-chat-a-un-bobo-voici-les-gestes-qui-sauvent-sa/) vous explique les gestes à faire.
 
 Un poil qui se détache en grosses touffes, des pellicules soudaines, une odeur inhabituelle sur la peau : ne mettez pas ça sur le compte de « il mue, c’est normal ». La mue ne rend pas un pelage gras ou négligé. Votre chat est peut-être trop fatigué pour se laver, et ça, c’est un signe important.
 
@@ -45,13 +45,13 @@ La salivation excessive est aussi un signe à ne pas rater. Un chat qui bave com
 
 ## 6. Ses habitudes de sommeil ou de jeu changent
 
-Un chat dort beaucoup, c’est normal. Mais un chat qui dort 20 heures par jour, qui ne réagit plus quand on ouvre une boîte de pâtée, qui ne vient plus réclamer des caresses le soir, ça doit vous inquiéter. À l’inverse, un chat qui devient soudainement surexcité, qui miaule toute la nuit, qui fait les cent pas, peut souffrir d’hyperthyroïdie ou de douleurs articulaires. Les chats âgés qui miaulent la nuit souffrent souvent de confusion, d’hypertension ou d’arthrose.
+Un chat dort beaucoup, c’est normal. Mais un chat qui dort 20 heures par jour, qui ne réagit plus quand on ouvre une boîte de pâtée, qui ne vient plus réclamer des caresses le soir, ça doit vous inquiéter. À l’inverse, un chat qui devient soudainement surexcité, qui miaule toute la nuit, qui fait les cent pas, peut souffrir d’hyperthyroïdie ou de douleurs articulaires. Les chats âgés qui miaulent la nuit souffrent souvent de confusion, d’hypertension ou d’arthrose. D’ailleurs, pour distinguer le sommeil sain de l’abattement, lisez notre article sur [la routine de votre chat](/blog/la-routine-de-mon-chat-est-plus-organisee-que-la-m/).
 
 Observez aussi sa façon de se déplacer. S’il hésite avant de sauter, s’il grimpe à peine sur le canapé, s’il marche avec les pattes raides, ce n’est pas juste « de l’âge ». C’est de la douleur. Les chats ne boitent pas toujours, ils « économisent » leur corps.
 
 ## 7. Il vomit plus souvent qu’un chat normal
 
-Un petit vomi de boules de poils de temps en temps, ça passe. Mais si votre chat vomit plus d’une fois par semaine, ou plusieurs fois dans la même journée, ce n’est plus anodin. Les vomissements chroniques peuvent signaler une maladie inflammatoire chronique de l’intestin, une pancréatite, une insuffisance rénale ou même un lymphome. Beaucoup de propriétaires disent « c’est juste les poils », et malheureusement, on laisse évoluer la maladie.
+Un petit vomi de boules de poils de temps en temps, ça passe. Mais si votre chat vomit plus d’une fois par semaine, ou plusieurs fois dans la même journée, ce n’est plus anodin. Les vomissements chroniques peuvent signaler une maladie inflammatoire chronique de l’intestin, une pancréatite, une insuffisance rénale ou même un lymphome. Beaucoup de propriétaires disent « c’est juste les poils », et malheureusement, on laisse évoluer la maladie. À ce sujet, sachez que certains comportements « bizarres » sont en réalité parfaitement normaux, comme le montre notre article sur [ces 7 trucs félins enfin expliqués](/blog/on-a-enfin-compris-pourquoi-les-chats-font-ces-7-t/).
 
 Faites attention aussi aux vomissements « silencieux », c’est-à-dire quand le chat baisse la tête, crache un peu de liquide blanc ou jaune, sans effort violent. Parfois, il n’y a même pas de vomissement, mais des régurgitations discrètes un peu partout dans la maison. Tenez un petit carnet : fréquence, moment, contenu. Si ça devient régulier, parlez-en au vétérinaire.
 
