@@ -12,7 +12,6 @@ Les chats, soyons honnêtes, ils ont un pouvoir secret sur nous. On commence par
 
 Si vous cherchez un chat qui a l’air perpétuellement déçu de votre existence tout en étant irrésistible, le Persan est votre candidat. Avec son nez écrasé, ses grands yeux ronds et sa fourrure de nuage de coton, il a ce petit air boudeur qui donne envie de lui faire des bisous sur le front. Mais attention, on ne touche pas à la fourrure sans permission – enfin, si, on touche, parce qu’on n’a aucune force de volonté face à ce genre de peluche vivante.
 
-### Pourquoi on craque ?
 
 Parce que le Persan est un paradoxe. Il a la tête d’un ourson en peluche mais le caractère d’un petit prince exigeant. Il n’aime pas courir partout comme un fou ; il préfère s’installer sur le canapé, vous regarder de son air méprisant, puis soudainement venir se blottir contre vous comme si vous étiez la personne la plus importante de l’univers. Et là, vous êtes fichu. Ses ronronnements sont si doux qu’ils vous envoient dans une dimension parallèle de bonheur. Franchement, ce chat devrait être interdit de mignonnerie tellement c’est injuste.
 
@@ -22,7 +21,6 @@ Sans oublier ses poils longs qui demandent un brossage quotidien – mais bizarr
 
 Alors là, parlons du Scottish Fold. Ce chat a une particularité génétique : ses oreilles sont repliées vers l’avant, ce qui lui donne une expression perpétuelle de chouette en mode « oh, t’as vu ça ? ». C’est impossible de le regarder sans faire un petit cri aigu de joie. En plus, il a des grands yeux ronds et une tête ronde, ce qui accentue son côté « peluche de chez IKEA » version féline.
 
-### Le charme du chat-chouette
 
 Le Scottish Fold ne se contente pas d’être mignon dans son apparence. Non, il a aussi une personnalité en or. Il adore suivre son humain partout, se poser sur le clavier de l’ordinateur (parce que c’est évidemment la meilleure place), et dormir sur le dos, les pattes en l’air, comme s’il était en totale confiance avec le monde. Sérieusement, qui peut résister à un chat qui expose son ventre comme une invitation au grattouillage ? C’est un piège, bien sûr, mais on y tombe à chaque fois.
 
@@ -32,7 +30,6 @@ Il a cette façon de s’asseoir comme un petit humain, avec ses pattes avant bi
 
 Vous pensiez que rien ne pouvait être plus adorable qu’un chat normal ? Voilà le Munchkin, ce petit chat à pattes toutes courtes, comme s’il était coincé dans un corps de teckel mais avec une tête de chaton. Ils sont minuscules, trottinent avec une démarche de petite souris, et essaient de monter sur le canapé en sautant trois fois avant d’y arriver. Rien que de les regarder se déplacer, on rit, on fond, on veut les serrer dans nos bras.
 
-### Le petit chat au grand caractère
 
 Franchement, qui a eu l’idée de faire un chat avec des pattes aussi courtes ? Probablement un génie. Parce qu’en plus de leur look irrésistible, les Munchkins ont un tempérament ultra-joueur et affectueux. Ils ne se rendent pas compte qu’ils sont différents ; ils escaladent tout, courent à toute vitesse (enfin, leur vitesse, c’est déjà un exploit), et sautent dans des endroits improbables. Leur énergie est incroyable, et leur joie de vivre communicative.
 
@@ -42,7 +39,6 @@ Et puis, il y a cette petite manie de s’asseoir sur leurs pattes arrière, com
 
 On change de registre. Le Bengal, avec son pelage tacheté, ses reflets dorés et ses mouvements de panthère, semble tout droit sorti de la jungle. On le regarde et on se dit « ouah, c’est un vrai petit fauve ». Et puis il ouvre la bouche pour miauler, et c’est un petit bruit doux qui n’a rien de sauvage. En fait, le Bengal est un énorme bébé qui a soif d’attention. On craque parce qu’il combine la beauté exotique et le caractère hyper affectueux.
 
-### Une beauté qui ne laisse pas indifférent
 
 Le Bengal vous regarde avec ses yeux verts ou dorés en amande, et vous avez l’impression qu’il voit au fond de votre âme. Mais au lieu de vous juger, il vient vous lécher le menton et frotter sa tête contre la vôtre. C’est déroutant, parce qu’on s’attendait à une attitude de prédateur distant, et finalement on se retrouve avec un chat qui réclame des câlins comme un gros chaton. Ce contraste entre son apparence de mini-léopard et sa personnalité de pot de colle est tout simplement irrésistible.
 
@@ -52,6 +48,5 @@ En plus, le Bengal est sportif. Il adore jouer, grimper, rapporter une petite ba
 
 On termine avec le Sphynx, ce chat sans poils qui a l’air d’un extraterrestre ou d’une créature magique. Les gens soit l’adorent, soit le trouvent bizarre, mais une chose est sûre : une fois qu’on l’a vu en vrai, on ne peut plus l’oublier. Et il faut bien le dire, il a quelque chose d’incroyablement attachant. Sa peau douce comme une pêche, ses grandes oreilles en forme d’ailes, ses yeux immenses et expressifs… C’est un chat qui semble toujours étonné par la vie, et ça donne envie de le protéger.
 
-### Une peau à aimer
 
 Sans fourrure, le Sphynx est un vrai radiateur affectueux. Il aime le contact, la chaleur, se blottir sous les couvertures, sur votre ventre, ou pire, directement contre votre visage. Il n’a aucune notion de l’espace personnel, et c’est exactement pour ça qu’on l’adore. Quand il se frotte contre vos jambes, vous sentez sa peau chaude et douce, quelque chose d’unique qui rend les câlins encore plus intenses.
