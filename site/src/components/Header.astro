@@ -20,20 +20,37 @@ import HeaderLink from './HeaderLink.astro';
 
 <nav class="bottom-nav" aria-label="Navigation principale mobile">
 	<HeaderLink href={url('')}>
-		<span class="bn-icon" aria-hidden="true">🏠</span>
+		<span class="bn-icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M3 10.5 12 3l9 7.5" />
+				<path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />
+				<path d="M9 21v-6h6v6" />
+			</svg>
+		</span>
 		<span>Accueil</span>
 	</HeaderLink>
 	<HeaderLink href={url('blog')}>
-		<span class="bn-icon" aria-hidden="true">📰</span>
+		<span class="bn-icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M4 4h16v16H4z" />
+				<path d="M8 8h8M8 12h8M8 16h5" />
+			</svg>
+		</span>
 		<span>Blog</span>
 	</HeaderLink>
 	<HeaderLink href={url('categories')}>
-		<span class="bn-icon" aria-hidden="true">🗂️</span>
+		<span class="bn-icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M3 7l9-4 9 4-9 4z" />
+				<path d="M3 7v10l9 4 9-4V7" />
+				<path d="M12 11v10" />
+			</svg>
+		</span>
 		<span>Catégories</span>
 	</HeaderLink>
 	<HeaderLink href={FACEBOOK_URL} target="_blank" rel="noopener">
 		<span class="bn-icon" aria-hidden="true">
-			<svg viewBox="0 0 24 24" width="20" height="20" fill="#1877F2">
+			<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
 				<path
 					d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047v-2.66c0-3.026 1.792-4.697 4.533-4.697 1.313 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"
 				/>
@@ -42,129 +59,3 @@ import HeaderLink from './HeaderLink.astro';
 		<span>Facebook</span>
 	</HeaderLink>
 </nav>
-<style>
-	header {
-		margin: 0;
-		padding: 0.35em 1em;
-		background: rgba(255, 255, 255, 0.94);
-		border-bottom: 1px solid var(--accent-soft);
-		position: sticky;
-		top: 0;
-		z-index: 50;
-		backdrop-filter: blur(8px);
-	}
-	.site-logo {
-		margin: 0;
-		font-size: 1.4em;
-		font-family: "Libre Bodoni", serif;
-		font-weight: 700;
-		line-height: 1.2;
-	}
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	.site-logo a {
-		color: var(--title);
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4em;
-	}
-	.logo-emoji {
-		display: inline-block;
-		font-size: 1em;
-		line-height: 1;
-		height: 1em;
-	}
-	.site-logo a:hover {
-		color: var(--accent);
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		gap: 0.5em;
-		max-width: 960px;
-		margin: auto;
-	}
-	nav a {
-		padding: 0.35em 0.5em;
-		color: var(--text);
-		border-bottom: 2px solid transparent;
-		text-decoration: none;
-		cursor: pointer;
-		transition:
-			color 0.2s ease,
-			border-color 0.2s ease;
-	}
-	nav a:hover {
-		color: var(--accent);
-	}
-	nav a.active {
-		text-decoration: none;
-		color: var(--accent);
-		border-bottom-color: var(--accent);
-	}
-	.nav-right {
-		display: flex;
-		align-items: center;
-		gap: 1em;
-	}
-	@media (max-width: 720px) {
-		.internal-links {
-			display: none;
-		}
-	}
-	.bottom-nav {
-		display: none;
-	}
-	@media (max-width: 720px) {
-		.bottom-nav {
-			display: flex;
-			position: fixed;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			z-index: 60;
-			background: rgba(255, 255, 255, 0.96);
-			border-top: 1px solid var(--accent-soft);
-			backdrop-filter: blur(8px);
-			padding-bottom: env(safe-area-inset-bottom);
-		}
-		.bottom-nav a {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			gap: 2px;
-			padding: 0.5em 0.25em;
-			font-size: 0.72rem;
-			color: var(--text);
-			text-decoration: none;
-			border-bottom: none;
-			min-height: 56px;
-			cursor: pointer;
-		}
-		.bottom-nav a:hover {
-			color: var(--accent);
-		}
-		.bottom-nav a.active {
-			color: var(--accent);
-			font-weight: 600;
-			text-decoration: none;
-		}
-		.bn-icon {
-			font-size: 1.4em;
-			line-height: 1;
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			height: 1.4em;
-		}
-		:global(body) {
-			padding-bottom: calc(58px + env(safe-area-inset-bottom));
-		}
-	}
-</style>

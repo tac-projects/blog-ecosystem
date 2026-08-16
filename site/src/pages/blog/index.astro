@@ -15,31 +15,13 @@ const posts = (await getCollection('blog')).sort(
 <html lang="fr">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			.section-title {
-				text-align: center;
-				margin-bottom: 2rem;
-				color: var(--title);
-			}
-			ul {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-				gap: 1.5rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
 			<section>
 				<h2 class="section-title">Tous les articles</h2>
-			<ul>
+			<ul class="grid">
 				{posts.map((post) => <PostCard post={post} />)}
 			</ul>
 			</section>

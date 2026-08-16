@@ -260,12 +260,42 @@ def generate_svg(title, niche):
     return f"/images/{filename}"
 
 
+def strip_leading_duplicate_title(content, title, model=None, api_base=None):
+    """Remove a leading '## ' heading that merely repeats the frontmatter title."""
+    stripped = content.lstrip()
+    if not stripped.startswith('## '):
+        return content
+    line_end = stripped.find('\n')
+    heading = stripped[3:line_end if line_end != -1 else None].strip()
+    if is_duplicate(heading, [title], threshold=0.6):
+        rest = stripped[line_end + 1:] if line_end != -1 else ''
+        return rest.lstrip('\n')
+    if model and api_base:
+        prompt = (
+            f'Article title: "{title}"\n'
+            f'First section heading of the article: "{heading}"\n\n'
+            'Does the heading restate the SAME TITLE (same idea, reworded)? '
+            'Reply with exactly "yes" or "no".'
+        )
+        answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=1024).lower()
+        if answer.strip().startswith('yes'):
+            rest = stripped[line_end + 1:] if line_end != -1 else ''
+            return rest.lstrip('\n')
+    return content
+
+
 def save_post(title, content, hero_image, category, date_str=None):
     slug = slugify(title)
     filename = f"{slug}.md"
     filepath = os.path.join(BLOG_CONTENT_DIR, filename)
     if date_str is None:
         date_str = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    content = strip_leading_duplicate_title(
+        content, title, model=args.model, api_base=args.api_base
+    )
+
+    content = strip_leading_duplicate_title(content, title)
 
     frontmatter = f"""---
 title: "{title}"

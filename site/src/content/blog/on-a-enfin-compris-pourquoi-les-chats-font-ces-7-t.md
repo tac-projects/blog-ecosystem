@@ -6,8 +6,6 @@ category: 'Comportement'
 heroImage: '/images/on-a-enfin-compris-pourquoi-les-chats-font-ces-7-t.jpg'
 ---
 
-## Les 7 comportements félins enfin décryptés
-
 ### 1. Le pétrissage, ou « faire le pain »
 
 Un chat qui pétrit avec ses pattes avant, en appuyant alternativement, c’est l’un des comportements les plus mignons et les plus étranges à la fois. Pourquoi est-ce qu’il fait ça sur un plaid, sur ton ventre, ou pire, sur ton ventre avec ses griffes bien sorties ?
