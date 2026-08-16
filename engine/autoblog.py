@@ -146,7 +146,13 @@ def generate_topic(niche, tone, language, model, api_base, category=None, avoid_
     )
     prompt += (
         "The title must be designed to perform well on Facebook for a 45+ audience "
-        "who love cats. Use ONE of these proven angles: "
+        "who love cats. It must be BOTH click-worthy AND share-worthy. "
+        "A reader shares a post when they identify with it (\"that's exactly my life with "
+        "my cat\"), when it's practically useful for someone they know (\"I'll send this to "
+        "my neighbour who has a sick cat\"), or when it's a delightful surprise worth "
+        "showing others. Before proposing a title, mentally test it: \"Would a cat owner "
+        "want to share this on their wall?\" If not, find a better angle. "
+        "Use ONE of these proven angles: "
         "(a) a curiosity gap that raises a question without revealing the answer "
         "(\"What your cat is really telling you when it blinks\"), "
         "(b) a counter-intuitive statement that challenges a common belief "
