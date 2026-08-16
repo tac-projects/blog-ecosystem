@@ -1,6 +1,6 @@
 ---
 title: "Le top des races de chats qui vont vous faire fondre (le numéro 2 est incroyable)"
-description: "Un article pour tous les amoureux des chats : Le top des races de chats qui vont vous faire fondre (le numéro 2 est incroyable)."
+description: "Découvrez une sélection de races félines irrésistiblement attachantes, avec un candidat surprenant qui mérite toute votre attention. Un classement à ne pas manquer pour les amoureux des chats."
 pubDate: '2026-08-02'
 category: 'Races'
 heroImage: '/images/le-top-des-races-de-chats-qui-vont-vous-faire-fond.jpg'

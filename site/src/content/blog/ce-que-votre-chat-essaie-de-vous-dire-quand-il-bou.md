@@ -1,6 +1,6 @@
 ---
 title: "Ce que votre chat essaie de vous dire quand il boude ses croquettes (et comment y remédier)"
-description: "Un article pour tous les amoureux des chats : Ce que votre chat essaie de vous dire quand il boude ses croquettes (et comment y remédier)."
+description: "Votre félin boude sa gamelle sans raison apparente ? Découvrez les messages cachés derrière ce comportement et les solutions simples pour lui redonner l’appétit."
 pubDate: '2026-08-04'
 category: 'Nutrition'
 heroImage: '/images/ce-que-votre-chat-essaie-de-vous-dire-quand-il-bou.jpg'

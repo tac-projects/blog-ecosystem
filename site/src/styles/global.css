@@ -280,11 +280,23 @@ hr {
 
 /* Date */
 .date {
-	font-size: 0.82rem;
-	color: var(--accent);
-	font-weight: 500;
-	text-transform: uppercase;
-	letter-spacing: 0.5px;
+	font-size: 0.85rem;
+	color: var(--text-soft);
+	font-weight: 400;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.card-meta {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-bottom: 0.4rem;
+}
+
+.card-meta .badge {
+	margin: 0;
+	align-self: center;
 }
 
 /* Badge catégorie */
@@ -428,7 +440,7 @@ header nav a.active {
 /* --------------------------------------------------------------------------
    Footer
    -------------------------------------------------------------------------- */
-footer {
+body > footer {
 	padding: 2em 1em 4em 1em;
 	border-top: 1px solid var(--accent-soft);
 	color: var(--text-soft);
@@ -518,30 +530,116 @@ footer p {
 	margin-top: 0.75rem;
 }
 
-.share {
+.post-actions {
 	margin-top: 2.5rem;
-	padding-top: 1.5rem;
-	border-top: 1px solid var(--accent-soft);
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-	flex-wrap: wrap;
-	max-width: 720px;
-	margin-left: auto;
-	margin-right: auto;
+	display: grid;
+	gap: 1.5rem;
 }
 
-.share-label {
+@media (min-width: 721px) {
+	.post-actions {
+		grid-template-areas:
+			"related related"
+			"community community";
+		grid-template-columns: 1fr;
+		align-items: start;
+	}
+
+	.post-actions .related {
+		grid-area: related;
+	}
+
+	.post-actions .community {
+		grid-area: community;
+	}
+}
+
+/* Pastille de partage sticky */
+.share-sticky {
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 1.25rem;
+	z-index: 55;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	background: #1877F2;
+	color: #fff;
 	font-weight: 600;
-	color: var(--title);
+	text-decoration: none;
+	padding: 0.7em 1.5em;
+	border-radius: var(--radius-pill);
+	box-shadow: var(--shadow-lg);
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.4s ease,
+		transform 0.4s ease,
+		background var(--transition);
+}
+
+.share-sticky.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.share-sticky.is-visible.is-pulsing {
+	animation:
+		share-in 0.4s ease forwards,
+		share-pulse 5s ease-in-out 0.5s infinite;
+}
+
+@keyframes share-in {
+	from {
+		opacity: 0;
+		transform: translateX(-50%) translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+	}
+}
+
+@keyframes share-pulse {
+	0%,
+	85%,
+	100% {
+		transform: translateX(-50%) scale(1);
+	}
+	93% {
+		transform: translateX(-50%) scale(1.04);
+	}
+}
+
+.share-sticky:hover {
+	background: #145dbf;
+	color: #fff;
+	transform: translateX(-50%) translateY(-2px);
+}
+
+@media (max-width: 720px) {
+	.share-sticky {
+		bottom: calc(58px + 0.75rem + env(safe-area-inset-bottom));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.share-sticky,
+	.share-sticky.is-visible,
+	.share-sticky.is-pulsing {
+		opacity: 1;
+		pointer-events: auto;
+		animation: none;
+		transition: none;
+	}
 }
 
 /* À lire ensuite */
 .related {
-	margin-top: 2.5rem;
-	max-width: 720px;
-	margin-left: auto;
-	margin-right: auto;
+	max-width: 100%;
+	margin: 0;
 }
 
 .related-title {
@@ -881,6 +979,28 @@ footer p {
 
 .community-btn {
 	white-space: nowrap;
+	padding: 0.7em 1.6em;
+}
+
+/* Dans la colonne gauche de l'article : même design que le bloc partage */
+.post-actions .community {
+	margin-top: 0;
+	padding: 1.75rem 1.5rem;
+}
+
+.post-actions .community-inner {
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.post-actions .community-text h3 {
+	margin: 0 0 0.25rem;
+}
+
+.post-actions .community-btn {
+	white-space: normal;
 	padding: 0.7em 1.6em;
 }
 

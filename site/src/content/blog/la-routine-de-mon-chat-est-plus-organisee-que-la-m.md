@@ -1,6 +1,6 @@
 ---
 title: "La routine de mon chat est plus organisée que la mienne (et voici pourquoi)"
-description: "Un article pour tous les amoureux des chats : La routine de mon chat est plus organisée que la mienne (et voici pourquoi)."
+description: "Votre chat gère son emploi du temps avec une précision millimétrée qui force le respect. Découvrez ce que cet instinct d’organisation révèle sur son bien-être et comment vous pourriez même en prendre de la graine."
 pubDate: '2026-08-08'
 category: 'Mode de vie'
 heroImage: '/images/la-routine-de-mon-chat-est-plus-organisee-que-la-m.jpg'

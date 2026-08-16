@@ -16,8 +16,10 @@ const { post } = Astro.props;
 			<img width={720} height={360} src={post.data.heroImage} alt="" loading="lazy" />
 		)}
 		<div class="card-body">
-			<FormattedDate date={post.data.pubDate} class="date" />
-			{post.data.category && <span class="badge">{post.data.category}</span>}
+			<div class="card-meta">
+				<FormattedDate date={post.data.pubDate} class="date" />
+				{post.data.category && <span class="badge">{post.data.category}</span>}
+			</div>
 			<h4>{post.data.title}</h4>
 			<p class="excerpt">{post.data.description}</p>
 		</div>

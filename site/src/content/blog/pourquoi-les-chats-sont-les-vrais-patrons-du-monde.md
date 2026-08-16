@@ -1,6 +1,6 @@
 ---
 title: "Pourquoi les chats sont les vrais patrons du monde (et on les laisse faire)"
-description: "Un article pour tous les amoureux des chats : Pourquoi les chats sont les vrais patrons du monde (et on les laisse faire)."
+description: "Découvrez comment les félins ont discrètement pris le contrôle de nos vies et pourquoi nous les laissons régner avec un plaisir coupable."
 pubDate: '2026-08-14'
 category: 'Comportement'
 heroImage: '/images/pourquoi-les-chats-sont-les-vrais-patrons-du-monde.jpg'

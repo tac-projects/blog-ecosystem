@@ -1,6 +1,6 @@
 ---
 title: "Comportement félin : 7 choses que votre chat fait et que vous interprétez mal"
-description: "Un article pour tous les amoureux des chats : Comportement félin : 7 choses que votre chat fait et que vous interprétez mal."
+description: "Découvrez ce que votre chat essaie vraiment de vous dire à travers ses gestes et ses attitudes. Apprenez à décoder ses comportements mystérieux pour mieux comprendre votre compagnon et renforcer votre complicité."
 pubDate: '2026-08-07'
 category: 'Comportement'
 heroImage: '/images/comportement-felin-7-choses-que-votre-chat-fait-et.jpg'

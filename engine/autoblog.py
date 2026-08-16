@@ -394,7 +394,20 @@ def validate_links(content, valid_slugs):
     return new_content, kept[0]
 
 
-def save_post(title, content, hero_image, category, date_str=None):
+def generate_description(title, language, model, api_base):
+    """Generate a short, engaging meta description (1-2 sentences) for the article."""
+    prompt = (
+        f'Write a short meta description for a blog post about "{title}" '
+        f'in {language}. It must be 1-2 sentences, engaging, accurate, '
+        'and MUST NOT repeat the title verbatim. '
+        'It should make a cat lover want to read the article. '
+        'No quotes, no emojis, no markdown. Just the description.'
+    )
+    desc = deepseek_chat(prompt, model, api_base, temperature=0.7, max_tokens=300).strip().strip('"')
+    return desc
+
+
+def save_post(title, content, hero_image, category, date_str=None, description=None):
     slug = slugify(title)
     filename = f"{slug}.md"
     filepath = os.path.join(BLOG_CONTENT_DIR, filename)
@@ -407,9 +420,12 @@ def save_post(title, content, hero_image, category, date_str=None):
 
     content = strip_leading_duplicate_title(content, title)
 
+    if not description:
+        description = f"Un article pour tous les amoureux des chats : {title}."
+
     frontmatter = f"""---
 title: "{title}"
-description: "Un article pour tous les amoureux des chats : {title}."
+description: "{description}"
 pubDate: '{date_str}'
 category: '{category}'
 heroImage: '{hero_image}'
@@ -504,6 +520,10 @@ def main():
             reviewed, kept = validate_links(reviewed, valid_slugs)
             print(f"Inline links: {kept} valid, broken removed.")
 
+            # 2.5. Meta description: short, engaging, not repeating the title
+            description = generate_description(title, language, model, api_base)
+            print(f"Description: {description}")
+
             # 3. Hero image: real Pexels photo matching the subject, SVG as fallback
             hero_image = generate_photo(title, category, niche, model, api_base,
                                         dry_run=args.dry_run)
@@ -512,7 +532,7 @@ def main():
                 hero_image = generate_svg(title, niche)
             print(f"Generated image: {hero_image}")
 
-            save_post(title, reviewed, hero_image, category, date_str=pub_date)
+            save_post(title, reviewed, hero_image, category, date_str=pub_date, description=description)
             existing.append((title, category))
 
         except Exception as e:

@@ -1,6 +1,6 @@
 ---
 title: "Ces 7 signes que votre chat est malade (et que l'on ignore trop souvent)"
-description: "Un article pour tous les amoureux des chats : Ces 7 signes que votre chat est malade (et que l'on ignore trop souvent)."
+description: "Votre chat ne peut pas vous dire qu’il souffre, mais certains comportements discrets trahissent son mal-être. Apprenez à repérer ces indices silencieux pour protéger sa santé avant qu’il ne soit trop tard."
 pubDate: '2026-08-05'
 category: 'Sante & Soins'
 heroImage: '/images/ces-7-signes-que-votre-chat-est-malade-et-que-lon-.jpg'

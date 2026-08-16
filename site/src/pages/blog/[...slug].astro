@@ -15,11 +15,15 @@ const post = Astro.props;
 const { Content } = await render(post);
 
 const allPosts = await getCollection('blog');
-const related = allPosts
+const sameCat = allPosts
 	.filter((p) => p.id !== post.id)
 	.filter((p) => p.data.category === post.data.category)
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3);
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const otherCat = allPosts
+	.filter((p) => p.id !== post.id)
+	.filter((p) => p.data.category !== post.data.category)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const related = [...sameCat, ...otherCat].slice(0, 5);
 ---
 
 <BlogPost {...post.data} related={related}>
