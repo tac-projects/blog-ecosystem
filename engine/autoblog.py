@@ -17,7 +17,7 @@ BLOG_CONTENT_DIR = os.path.join(PROJECT_DIR, 'site/src/content/blog')
 IMAGES_DIR = os.path.join(PROJECT_DIR, 'site/public/images')
 ENV_FILE = os.path.join(PROJECT_DIR, '.env')
 
-CATEGORIES = ['Comportement', 'Sante & Soins', 'Nutrition', 'Races', 'Mode de vie']
+CATEGORIES = ['Comportement', 'Sante & Soins', 'Nutrition', 'Races', 'Mode de vie', 'Adoption']
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dry-run', action='store_true', help='Do not save files')

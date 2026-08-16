@@ -12,6 +12,15 @@ for (const post of posts) {
 	counts.set(cat, (counts.get(cat) || 0) + 1);
 }
 const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+
+const icons = {
+	'Comportement': '🐾',
+	'Sante & Soins': '🩹',
+	'Nutrition': '🍗',
+	'Races': '🐈',
+	'Mode de vie': '🛋️',
+	'Adoption': '🏠',
+};
 ---
 
 <!doctype html>
@@ -24,10 +33,11 @@ const categories = [...counts.entries()].sort((a, b) => b[1] - a[1]);
 		<main>
 			<section>
 				<h1 class="section-title">Catégories</h1>
-				<ul class="grid">
+				<ul class="grid cat-grid">
 					{categories.map(([cat, count]) => (
-						<li class="card">
+						<li class="card cat-card">
 							<a class="card-link" href={url(`categories/${encodeURIComponent(cat)}`)}>
+								<div class="cat-icon" aria-hidden="true">{icons[cat] || '🐈'}</div>
 								<div class="card-body">
 									<h2>{cat}</h2>
 									<p class="excerpt">

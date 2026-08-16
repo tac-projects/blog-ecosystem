@@ -67,6 +67,7 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 				</div>
 			</article>
 			<div class="post-actions">
+				{showCommunity && <CommunityBlock />}
 				{related.length > 0 && (
 					<section class="related">
 						<h2 class="related-title">À lire ensuite</h2>
@@ -94,7 +95,6 @@ const fbShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComp
 						</ul>
 					</section>
 				)}
-				{showCommunity && <CommunityBlock />}
 			</div>
 		</main>
 

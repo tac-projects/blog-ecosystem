@@ -116,7 +116,7 @@ h6 {
 	margin: 0 0 0.5rem 0;
 	color: var(--title);
 	line-height: 1.25;
-	font-family: var(--font-serif);
+	font-family: var(--font-sans);
 	font-weight: 700;
 	letter-spacing: -0.01em;
 }
@@ -216,6 +216,48 @@ hr {
 	gap: 1.5rem;
 	list-style: none;
 	padding: 0;
+}
+
+/* Carte catégorie */
+@media (min-width: 721px) {
+	.cat-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (max-width: 720px) {
+	.cat-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+	}
+
+	.cat-card .cat-icon {
+		font-size: 2em;
+		margin-top: 1rem;
+	}
+
+	.cat-card .card-body {
+		padding: 0.75rem;
+	}
+
+	.cat-card h2 {
+		font-size: 1.1em;
+	}
+}
+
+.cat-card .card-link {
+	align-items: center;
+	text-align: center;
+}
+
+.cat-icon {
+	font-size: 2.6em;
+	line-height: 1;
+	margin-top: 1.5rem;
+}
+
+.cat-card .card-body {
+	align-items: center;
 }
 
 /* Carte article */
@@ -463,7 +505,7 @@ body > footer {
 
 .footer-title {
 	margin: 0 0 0.35em;
-	font-family: var(--font-serif);
+	font-family: var(--font-sans);
 	font-weight: 700;
 	font-size: 1.2em;
 	color: var(--title);
@@ -486,8 +528,8 @@ body > footer {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5em;
-	color: var(--accent-dark);
-	font-weight: 600;
+	color: var(--text-soft);
+	font-weight: 400;
 	text-decoration: none;
 	transition: color var(--transition);
 }
@@ -618,8 +660,8 @@ body > footer {
 @media (min-width: 721px) {
 	.post-actions {
 		grid-template-areas:
-			"related related"
-			"community community";
+			"community"
+			"related";
 		grid-template-columns: 1fr;
 		align-items: start;
 	}
@@ -1025,7 +1067,11 @@ body > footer {
 	letter-spacing: 0.5px;
 	padding: 0.3em 0.9em;
 	border-radius: var(--radius-pill);
-	margin-bottom: 1rem;
+	margin-bottom: 0.75rem;
+}
+
+.featured-body .badge {
+	margin: 0 0 0.75rem;
 }
 
 .featured-excerpt {
@@ -1047,10 +1093,11 @@ body > footer {
 
 .community-inner {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
-	gap: 1.5rem;
-	flex-wrap: wrap;
+	text-align: center;
+	justify-content: center;
+	gap: 0.5rem;
 }
 
 .community-text h3 {
@@ -1065,19 +1112,15 @@ body > footer {
 .community-btn {
 	white-space: nowrap;
 	padding: 0.7em 1.6em;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
 }
 
 /* Dans la colonne gauche de l'article : même design que le bloc partage */
 .post-actions .community {
 	margin-top: 0;
 	padding: 1.75rem 1.5rem;
-}
-
-.post-actions .community-inner {
-	flex-direction: column;
-	text-align: center;
-	justify-content: center;
-	gap: 0.5rem;
 }
 
 .post-actions .community-text h3 {

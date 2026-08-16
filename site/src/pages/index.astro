@@ -12,7 +12,7 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 const [featured, ...rest] = posts;
-const latest = rest.slice(0, 4);
+const latest = rest.slice(0, 6);
 ---
 
 <!doctype html>
@@ -55,7 +55,8 @@ const latest = rest.slice(0, 4);
 							<img src={featured.data.heroImage} alt="" width={1020} height={510} />
 						)}
 						<div class="featured-body">
-							<span class="featured-tag">Dernier article</span>
+							<span class="featured-tag">L'article du jour</span>
+							{featured.data.category && <span class="badge">{featured.data.category}</span>}
 							<h2>{featured.data.title}</h2>
 							<p class="featured-excerpt">{featured.data.description}</p>
 						</div>
