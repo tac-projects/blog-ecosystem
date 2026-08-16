@@ -163,24 +163,64 @@ def word_count(text):
     return len(text.split())
 
 
+def validate_structure(content):
+    """Check the article matches the uniform format:
+    intro (no heading) + exactly 4 '## ' sections + conclusion (no heading).
+
+    Returns True if the structure is respected, False otherwise.
+    """
+    lines = [l.rstrip() for l in content.splitlines()]
+
+    # '###' is forbidden by the format.
+    if any(l.startswith('### ') for l in lines):
+        return False
+
+    h2_indexes = [i for i, l in enumerate(lines) if l.startswith('## ')]
+    if len(h2_indexes) != 4:
+        return False
+
+    # Intro must exist BEFORE the first h2 (non-empty, no heading).
+    intro = '\n'.join(lines[:h2_indexes[0]]).strip()
+    if not intro:
+        return False
+
+    # Conclusion must exist AFTER the last h2 (non-empty, no heading).
+    conclusion = '\n'.join(lines[h2_indexes[-1] + 1:]).strip()
+    if not conclusion:
+        return False
+
+    return True
+
+
 def generate_content(title, tone, language, model, api_base, min_words=800, target_words=1200):
-    for attempt in range(2):
+    for attempt in range(3):
         prompt = f"""
         Write a {target_words}-word blog post about "{title}".
         Tone: {tone}. Language: {language} (Must be written in {language}).
         Format: Markdown.
-        Include h2, h3 headings.
-        Do NOT include the title at the start (it will be in frontmatter).
-        Do NOT wrap in markdown code blocks.
-        IMPORTANT: The article must be at least {min_words} words long.
+
+        STRICT STRUCTURE — follow this EXACT structure, no exceptions:
+        1. An engaging intro paragraph (2-3 sentences, NO heading, no '##').
+        2. EXACTLY 4 sections, each with a '## ' heading followed by 2-3 short paragraphs.
+           Headings must be descriptive and not repeat the article title.
+        3. A short conclusion paragraph (NO heading).
+
+        Rules:
+        - Use ONLY '## ' headings (one level). Do NOT use '###'.
+        - Do NOT include the title at the start (it will be in frontmatter).
+        - Do NOT wrap in markdown code blocks.
+        - The article must be at least {min_words} words long.
         """
         content = deepseek_chat(prompt, model, api_base, temperature=0.8, max_tokens=2500)
         words = word_count(content)
         print(f"Content generated ({words} words).")
-        if words >= min_words:
+        if words >= min_words and validate_structure(content):
             return content
-        print(f"Too short ({words} words < {min_words}). Regenerating...")
-    raise RuntimeError(f'Content too short after retries ({words} words)')
+        if words < min_words:
+            print(f"Too short ({words} words < {min_words}). Regenerating...")
+        else:
+            print("Structure does not match (intro + 4 x h2 + conclusion). Regenerating...")
+    raise RuntimeError(f'Content failed validation after retries ({words} words)')
 
 
 def review_content(title, content, language, model, api_base):
