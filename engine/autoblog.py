@@ -144,6 +144,20 @@ def generate_topic(niche, tone, language, model, api_base, category=None, avoid_
         f"chatting, online chat, messaging, group chats, conversations, or the internet. "
         f"Always about cats and cat care. The tone should be {tone}. "
     )
+    prompt += (
+        "The title must be designed to perform well on Facebook for a 45+ audience "
+        "who love cats. Use ONE of these proven angles: "
+        "(a) a curiosity gap that raises a question without revealing the answer "
+        "(\"What your cat is really telling you when it blinks\"), "
+        "(b) a counter-intuitive statement that challenges a common belief "
+        "(\"Your cat purring doesn't always mean it's happy\"), "
+        "(c) a numbered listicle with a specific count "
+        "(\"The 7 mistakes cat owners make without realizing\"), "
+        "(d) a relatable/personal statement that feels like it speaks directly to the reader "
+        "(\"If you're a cat person, you've already said this sentence\"). "
+        "The title must be honest: it must describe what the article actually delivers, "
+        "no fake promises or exaggerated claims. Write in French, natural and punchy. "
+    )
     if category:
         prompt += (
             f"The title must be specifically about the category '{category}' "
