@@ -54,11 +54,25 @@ def _existing_hashes():
 
 def _image_query(title, category, niche, model, api_base):
     """DeepSeek translates the article subject into an English Pexels search query."""
+    import json as _json
+    # Lit le template de prompt depuis blog_config.json
+    try:
+        with open(os.path.join(PROJECT_DIR, 'blog_config.json'), 'r', encoding='utf-8') as f:
+            config = _json.load(f)
+    except Exception:
+        config = {}
+    template = config.get('prompts', {}).get('image_query', {}).get('template', '')
+    if not template:
+        template = (
+            f"Article subject about {niche} (cats, the animals): \"{title}\" "
+            f"(category: {category}). "
+            "Give one short English image-search query (3-6 words, no quotes) that would find "
+            "a great free stock photo for this article. Reply with the query only."
+        )
     prompt = (
-        f"Article subject about {niche} (cats, the animals): \"{title}\" "
-        f"(category: {category}). "
-        "Give one short English image-search query (3-6 words, no quotes) that would find "
-        "a great free stock photo for this article. Reply with the query only."
+        template.replace('{niche}', str(niche))
+        .replace('{title}', str(title))
+        .replace('{category}', str(category))
     )
     body = json.dumps({
         'model': model,

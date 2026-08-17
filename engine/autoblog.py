@@ -48,6 +48,20 @@ def get_config():
         return {}
 
 
+def build_prompt(config, path, **kwargs):
+    """Récupère un template de prompt depuis blog_config.json et y injecte les valeurs.
+
+    path est une clé dot-notée, ex: 'prompts.topic.audience'.
+    """
+    node = config
+    for part in path.split('.'):
+        node = node.get(part, '') if isinstance(node, dict) else ''
+    template = node if isinstance(node, str) else ''
+    for k, v in kwargs.items():
+        template = template.replace('{' + k + '}', str(v))
+    return template
+
+
 def deepseek_chat(prompt, model, api_base, temperature=0.8, max_tokens=2000, thinking=None):
     api_key = os.environ.get('DEEPSEEK_API_KEY')
     if not api_key:
@@ -125,58 +139,30 @@ def is_semantic_duplicate(title, category, existing_titles, model, api_base):
     if not existing_titles:
         return False
     listed = '\n'.join(f'- {t}' for t in existing_titles)
-    prompt = (
-        f'Here are the titles of existing articles in the category "{category}":\n'
-        f'{listed}\n\n'
-        f'New title to check: "{title}"\n\n'
-        'Does the new title cover the SAME SUBJECT as any of the existing articles '
-        '(e.g. same problem, same advice, same topic reworded)? '
-        'Reply with exactly "yes" or "no".'
+    config = get_config()
+    prompt = build_prompt(
+        config, 'prompts.semantic_duplicate.template',
+        category=category, titles=listed, title=title,
     )
     answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=2048).lower()
     return answer.strip().startswith('yes')
 
 
 def generate_topic(niche, tone, language, model, api_base, category=None, avoid_titles=None):
-    prompt = (
-        f"Give me 1 viral blog post title about {niche} in the language '{language}'. "
-        f"IMPORTANT: '{niche}' means cats, the animals (felines). NEVER write about "
-        f"chatting, online chat, messaging, group chats, conversations, or the internet. "
-        f"Always about cats and cat care. The tone should be {tone}. "
+    config = get_config()
+    prompt = build_prompt(
+        config, 'prompts.topic.intro', niche=niche, language=language, tone=tone,
     )
-    prompt += (
-        "The title must be designed to perform well on Facebook for French-speaking "
-        "cat lovers aged 25-44. It must be BOTH click-worthy AND share-worthy. "
-        "A reader shares a post when they identify with it (\"that's exactly my life with "
-        "my cat\"), when it's practically useful for someone they know (\"I'll send this to "
-        "my neighbour who has a sick cat\"), or when it's a delightful surprise worth "
-        "showing others. Before proposing a title, mentally test it: \"Would a cat owner "
-        "want to share this on their wall?\" If not, find a better angle. "
-        "Use ONE of these proven angles: "
-        "(a) a curiosity gap that raises a question without revealing the answer "
-        "(\"What your cat is really telling you when it blinks\"), "
-        "(b) a counter-intuitive statement that challenges a common belief "
-        "(\"Your cat purring doesn't always mean it's happy\"), "
-        "(c) a numbered listicle with a specific count "
-        "(\"The 7 mistakes cat owners make without realizing\"), "
-        "(d) a relatable/personal statement that feels like it speaks directly to the reader "
-        "(\"If you're a cat person, you've already said this sentence\"). "
-        "The title must stay honest, sincere and useful: cats are beloved companions and "
-        "readers expect trustworthy advice, not clickbait. "
-        "Write in French, natural and punchy. "
-    )
+    prompt += build_prompt(config, 'prompts.topic.audience')
     if category:
-        prompt += (
-            f"The title must be specifically about the category '{category}' "
-            f"({category} of cats). "
+        prompt += build_prompt(
+            config, 'prompts.topic.category', category=category,
         )
     if avoid_titles:
-        prompt += (
-            "Choose a DIFFERENT subject than these already-published titles: "
-            + '; '.join(avoid_titles)
-            + '. '
+        prompt += build_prompt(
+            config, 'prompts.topic.avoid', titles='; '.join(avoid_titles),
         )
-    prompt += "Just the title, no quotes."
+    prompt += build_prompt(config, 'prompts.topic.ending')
     return deepseek_chat(prompt, model, api_base, temperature=0.9, max_tokens=4096)
 
 
@@ -214,37 +200,23 @@ def validate_structure(content, min_sections=3, max_sections=10):
 
 
 def generate_content(title, tone, language, model, api_base, min_words=800, target_words=1200, existing_links=None):
+    config = get_config()
+    content_cfg = config.get('content', {})
+    min_words = content_cfg.get('minWords', min_words)
+    target_words = content_cfg.get('targetWords', target_words)
     existing_links = existing_links or []
     link_block = ''
     if existing_links:
-        link_block = (
-            '\n        INTERNAL LINKS: here are the titles of existing articles on this blog:\n'
-            + '\n'.join(f'        - "{t}" -> /blog/{s}/' for t, s in existing_links)
-            + '\n        Insert 2 natural inline links in the text (markdown [texte](/blog/slug/)) '
-            'to the most topically relevant existing articles. Only link to articles listed '
-            'above, using their exact /blog/slug/ URL. Do not invent URLs.\n'
+        titles_block = '\n'.join(f'        - "{t}" -> /blog/{s}/' for t, s in existing_links)
+        link_block = build_prompt(
+            config, 'prompts.content.links_intro', titles=titles_block,
         )
     for attempt in range(3):
-        prompt = f"""
-        Write a {target_words}-word blog post about "{title}".
-        Tone: {tone}. Language: {language} (Must be written in {language}).
-        Format: Markdown.
-
-        STRICT STRUCTURE — follow this EXACT structure, no exceptions:
-        1. An engaging intro paragraph (2-3 sentences, NO heading, no '##').
-        2. Between 3 and 10 sections, each with a '## ' heading followed by 2-3 short
-           paragraphs. Choose the number of sections adapted to the subject:
-           a listicle ("top 10", "7 things") gets one section per item (up to 10);
-           a classic analysis article gets 4-5 sections.
-           Headings must be descriptive and not repeat the article title.
-        3. A short conclusion paragraph (NO heading).
-        {link_block}
-        Rules:
-        - Use ONLY '## ' headings (one level). Do NOT use '###'.
-        - Do NOT include the title at the start (it will be in frontmatter).
-        - Do NOT wrap in markdown code blocks.
-        - The article must be at least {min_words} words long.
-        """
+        prompt = build_prompt(
+            config, 'prompts.content.template',
+            target_words=target_words, title=title, tone=tone, language=language,
+            link_block=link_block, min_words=min_words,
+        )
         content = deepseek_chat(
             prompt, model, api_base, temperature=0.8, max_tokens=8000,
             thinking={'type': 'disabled'},
@@ -262,21 +234,11 @@ def generate_content(title, tone, language, model, api_base, min_words=800, targ
 
 def review_content(title, content, language, model, api_base):
     """Proofread and improve the content before publishing."""
-    prompt = f"""
-    You are the editor of a French cat blog. Review the following article
-    (title: "{title}") and return ONLY the corrected markdown, no commentary.
-
-    Requirements:
-    - Fix spelling and grammar mistakes (language: {language}).
-    - Remove repetitive sentences and vague filler.
-    - Keep the markdown structure (h2, h3 headings).
-    - Keep roughly the same length.
-    - Do NOT add a title at the start.
-    - Do NOT wrap in markdown code blocks.
-
-    Article:
-    {content}
-    """
+    config = get_config()
+    prompt = build_prompt(
+        config, 'prompts.review.template',
+        title=title, language=language, content=content,
+    )
     return deepseek_chat(
         prompt, model, api_base, temperature=0.3, max_tokens=6000, thinking={'type': 'disabled'}
     )
@@ -348,11 +310,10 @@ def strip_leading_duplicate_title(content, title, model=None, api_base=None):
         rest = stripped[line_end + 1:] if line_end != -1 else ''
         return rest.lstrip('\n')
     if model and api_base:
-        prompt = (
-            f'Article title: "{title}"\n'
-            f'First section heading of the article: "{heading}"\n\n'
-            'Does the heading restate the SAME TITLE (same idea, reworded)? '
-            'Reply with exactly "yes" or "no".'
+        config = get_config()
+        prompt = build_prompt(
+            config, 'prompts.strip_duplicate_heading.template',
+            title=title, heading=heading,
         )
         answer = deepseek_chat(prompt, model, api_base, temperature=0.0, max_tokens=2048).lower()
         if answer.strip().startswith('yes'):
@@ -400,13 +361,9 @@ def validate_links(content, valid_slugs):
 
 def generate_description(title, language, model, api_base):
     """Generate an engaging meta description (2-3 sentences) for the article."""
-    prompt = (
-        f'Write a meta description for a blog post about "{title}" '
-        f'in {language}. It must be 2-3 sentences, engaging, accurate, '
-        'and MUST NOT repeat the title verbatim. '
-        'It should make a cat lover want to read the article. '
-        'Write enough detail to fill at least 3 lines on a 1080px social card. '
-        'No quotes, no emojis, no markdown. Just the description.'
+    config = get_config()
+    prompt = build_prompt(
+        config, 'prompts.description.template', title=title, language=language,
     )
     desc = deepseek_chat(prompt, model, api_base, temperature=0.7, max_tokens=500).strip().strip('"')
     return desc

@@ -9,5 +9,39 @@
   "publishTime": "08:00",
   "siteUrl": "http://62.171.132.178",
   "facebookEnabled": true,
-  "facebookPageId": "112660727706"
+  "facebookPageId": "112660727706",
+  "content": {
+    "minWords": 800,
+    "targetWords": 1200,
+    "minSections": 3,
+    "maxSections": 10
+  },
+  "prompts": {
+    "topic": {
+      "intro": "Give me 1 viral blog post title about {niche} in the language '{language}'. IMPORTANT: '{niche}' means cats, the animals (felines). NEVER write about chatting, online chat, messaging, group chats, conversations, or the internet. Always about cats and cat care. The tone should be {tone}. ",
+      "audience": "The title must be designed to perform well on Facebook for French-speaking cat lovers aged 25-44. It must be BOTH click-worthy AND share-worthy. A reader shares a post when they identify with it (\"that's exactly my life with my cat\"), when it's practically useful for someone they know (\"I'll send this to my neighbour who has a sick cat\"), or when it's a delightful surprise worth showing others. Before proposing a title, mentally test it: \"Would a cat owner want to share this on their wall?\" If not, find a better angle. Use ONE of these proven angles: (a) a curiosity gap that raises a question without revealing the answer (\"What your cat is really telling you when it blinks\"), (b) a counter-intuitive statement that challenges a common belief (\"Your cat purring doesn't always mean it's happy\"), (c) a numbered listicle with a specific count (\"The 7 mistakes cat owners make without realizing\"), (d) a relatable/personal statement that feels like it speaks directly to the reader (\"If you're a cat person, you've already said this sentence\"). The title must stay honest, sincere and useful: cats are beloved companions and readers expect trustworthy advice, not clickbait. Write in French, natural and punchy. ",
+      "category": "The title must be specifically about the category '{category}' ({category} of cats). ",
+      "avoid": "Choose a DIFFERENT subject than these already-published titles: {titles}. ",
+      "ending": "Just the title, no quotes."
+    },
+    "content": {
+      "template": "Write a {target_words}-word blog post about \"{title}\". Tone: {tone}. Language: {language} (Must be written in {language}). Format: Markdown.\n\nSTRICT STRUCTURE — follow this EXACT structure, no exceptions:\n1. An engaging intro paragraph (2-3 sentences, NO heading, no '##').\n2. Between 3 and 10 sections, each with a '## ' heading followed by 2-3 short paragraphs. Choose the number of sections adapted to the subject: a listicle (\"top 10\", \"7 things\") gets one section per item (up to 10); a classic analysis article gets 4-5 sections. Headings must be descriptive and not repeat the article title.\n3. A short conclusion paragraph (NO heading).\n{link_block}\nRules:\n- Use ONLY '## ' headings (one level). Do NOT use '###'.\n- Do NOT include the title at the start (it will be in frontmatter).\n- Do NOT wrap in markdown code blocks.\n- The article must be at least {min_words} words long.",
+      "links_intro": "\n        INTERNAL LINKS: here are the titles of existing articles on this blog:\n{titles}\n        Insert 2 natural inline links in the text (markdown [texte](/blog/slug/)) to the most topically relevant existing articles. Only link to articles listed above, using their exact /blog/slug/ URL. Do not invent URLs.\n"
+    },
+    "review": {
+      "template": "You are the editor of a French cat blog. Review the following article (title: \"{title}\") and return ONLY the corrected markdown, no commentary.\n\nRequirements:\n- Fix spelling and grammar mistakes (language: {language}).\n- Remove repetitive sentences and vague filler.\n- Keep the markdown structure (h2, h3 headings).\n- Keep roughly the same length.\n- Do NOT add a title at the start.\n- Do NOT wrap in markdown code blocks.\n\nArticle:\n{content}"
+    },
+    "description": {
+      "template": "Write a meta description for a blog post about \"{title}\" in {language}. It must be 2-3 sentences, engaging, accurate, and MUST NOT repeat the title verbatim. It should make a cat lover want to read the article. Write enough detail to fill at least 3 lines on a 1080px social card. No quotes, no emojis, no markdown. Just the description."
+    },
+    "semantic_duplicate": {
+      "template": "Here are the titles of existing articles in the category \"{category}\":\n{titles}\n\nNew title to check: \"{title}\"\n\nDoes the new title cover the SAME SUBJECT as any of the existing articles (e.g. same problem, same advice, same topic reworded)? Reply with exactly \"yes\" or \"no\"."
+    },
+    "strip_duplicate_heading": {
+      "template": "Article title: \"{title}\"\nFirst section heading of the article: \"{heading}\"\n\nDoes the heading restate the SAME TITLE (same idea, reworded)? Reply with exactly \"yes\" or \"no\"."
+    },
+    "image_query": {
+      "template": "Article subject about {niche} (cats, the animals): \"{title}\" (category: {category}). Give one short English image-search query (3-6 words, no quotes) that would find a great free stock photo for this article. Reply with the query only."
+    }
+  }
 }
