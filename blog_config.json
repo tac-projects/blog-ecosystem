@@ -5,11 +5,13 @@
   "tone": "Casual",
   "model": "deepseek-v4-flash",
   "apiBase": "https://api.deepseek.com",
-  "automationActive": true,
+  "automationActive": false,
   "publishTime": "08:00",
   "siteUrl": "http://62.171.132.178",
   "facebookEnabled": true,
   "facebookPageId": "112660727706",
+  "geminiImageEnabled": true,
+  "geminiImageModel": "gemini-3.1-flash-lite-image",
   "content": {
     "minWords": 800,
     "targetWords": 1200,
@@ -42,6 +44,10 @@
     },
     "image_query": {
       "template": "Article subject about {niche} (cats, the animals): \"{title}\" (category: {category}). Give one short English image-search query (3-6 words, no quotes) that would find a great free stock photo for this article. Reply with the query only."
+    },
+    "gemini_image": {
+      "hook": "Create a daily Facebook cat photo, COMPLETELY INDEPENDENT from any blog article: it is a standalone daily visual. Reply with a JSON object with exactly 2 keys:\n- \"hook\": ONE short, punchy French sentence (4-10 words, no quotes, no emojis) that will be written on the photo. It must feel warm, witty and speak to French-speaking cat lovers aged 25-45. Vary the tone, angle and SUBJECT every day (tender, funny, philosophical, relatable; kittens, seniors, playtime, napping, garden, rainy day, winter, etc.).\n- \"scene\": ONE short English sentence describing the photorealistic photo that will illustrate the hook: the cat's breed, age, fur color, setting, lighting and mood. The scene MUST concretely match the hook's meaning and mood.\nAvoid reusing these already-used hooks/themes: {avoid_hooks}. JSON only, no other text.",
+      "image": "Generate a photorealistic square photo, professional photography, soft natural light, high detail. Topic: \"{scene}\". IMPORTANT: the image must contain NO text, no letters, no words, no caption, no watermark, no people — only the cat in its environment."
     }
   }
 }

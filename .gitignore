@@ -16,6 +16,10 @@ Thumbs.db
 # State
 .fb_state.json
 .pexels_state.json
+.gemini_image_state.json
+
+# Gemini images
+.gemini_images/
 
 # Build
 dist/

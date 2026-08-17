@@ -10,10 +10,11 @@ Blog auto-généré hébergé sur le VPS. Génération IA via DeepSeek, photos r
 engine/autoblog.py     Moteur Python (stdlib uniquement) : titre + contenu + description via DeepSeek
 engine/images.py       Photos réelles via Pexels (recadrées 1200x630), SVG en secours
 engine/facebook.py     Auto-publication Facebook (carte photo native + lien)
+engine/gemini_image.py Image du jour : hook + photo Gemini, hook incrusté (sharp), post sans légende
+scripts/gemini-card.mjs Incruste le hook dans la photo du jour (node + sharp, 1080x1080)
 scripts/fb-cards.mjs   Génère les cartes 1080x1080 pour les posts Facebook (sharp)
 scripts/convert-images.mjs  Convertit les SVG restants en PNG (og:image FB)
-scripts/deploy.sh      Moteur -> cartes -> build Astro -> publication -> post Facebook
-site/                  Site Astro (markdown dans src/content/blog/)
+scripts/deploy.sh      Moteur -> cartes -> build Astro -> publication -> posts Facebooksite/                  Site Astro (markdown dans src/content/blog/)
 blog_config.json       Configuration + TOUS les prompts (modifiables sans toucher au code)
 .env                   Clés API (DeepSeek, Pexels, Facebook, Gemini) — non versionné
 ```
@@ -61,6 +62,21 @@ Facebook tout nouvel article :
 L'état est suivi dans `.fb_state.json` (idempotent) : un post qui échoue est retenté au passage
 suivant. Un échec API ne bloque jamais le déploiement.
 
+## Image du jour (100% automatique, générée par IA, publication indépendante)
+
+À **12:00**, le timer systemd `blog-gemini-image.timer` exécute `engine/gemini_image.py` qui
+publie **1 image générée par Gemini**, avec un **thème 100% indépendant de l'article du jour** :
+- **Hook + scène** : DeepSeek génère un JSON `{hook, scene}` — hook = phrase française courte et
+  punchy ; scene = description anglaise de la photo qui l'illustre exactement (cohérence garantie)
+- **Anti-répétition** : les hooks déjà publiés sont passés en `{avoid_hooks}` dans le prompt
+- **Photo** : générée par le modèle image (`gemini-3.1-flash-lite-image`, ~800 KB JPEG), carrée,
+  photoréaliste et **sans aucun texte**
+- **Incrustation** : `scripts/gemini-card.mjs` (node + sharp) incruste le hook dans la photo
+  (bandeau dégradé, serif blanc, barre terracotta) → carte finale 1080x1080
+- **Post** : photo native sur la page **sans légende** (zéro texte hors image)
+L'état est suivi par date dans `.gemini_image_state.json` (`posted` = dates, `hooks` = anti-répétition).
+Config : `geminiImageEnabled`/`geminiImageModel` + prompts `prompts.gemini_image.*`.
+
 ## Critères de génération d'un article
 
 Pour chaque article, le moteur applique :
@@ -93,14 +109,19 @@ Aucune surface web : la CLI n'écrit que dans `blog_config.json`.
 python3 engine/autoblog.py --dry-run            # test sans écrire
 python3 engine/autoblog.py                      # génère un article
 python3 engine/autoblog.py --count 12 --days 14 # 12 articles, dates échelonnées sur 14 jours
-./scripts/deploy.sh                             # génère, build, publie
+./scripts/deploy.sh                             # génère, build, publie l'article (08:00)
 ```
 
 ## Automatisation quotidienne
 
+Deux publications indépendantes chaque jour :
+- **08:00** — article du jour : timer `blog-autoblog.timer` → `deploy.sh` (génération + build + publication article)
+- **12:00** — image du jour : timer `blog-gemini-image.timer` → `engine/gemini_image.py` (thème indépendant de l'article)
+
 ```bash
-sudo systemctl enable --now blog-autoblog.timer   # active le timer 08:00
-systemctl list-timers blog-autoblog.timer         # vérifie
+sudo systemctl enable --now blog-autoblog.timer      # timer article 08:00
+sudo systemctl enable --now blog-gemini-image.timer  # timer image 12:00
+systemctl list-timers blog-autoblog.timer blog-gemini-image.timer   # vérifie
 ```
 
 ## Référencement
