@@ -45,10 +45,11 @@ function wrap(text, maxWidth, fontSize, maxLines = 99, ellipsis = false) {
 	}
 	if (line) lines.push(line);
 	if (ellipsis && lines.length > maxLines) {
-		// La dernière ligne visible reçoit les 3 petits points si le texte est coupé
+		// La dernière ligne visible reçoit les 3 petits points si le texte est coupé.
+		// On retire la ponctuation finale (point, virgule, etc.) pour éviter "mot.…"
 		const visible = lines.slice(0, maxLines);
-		const last = visible[maxLines - 1];
-		visible[maxLines - 1] = last + '…';
+		const last = visible[maxLines - 1].replace(/[.,;:!?…]+$/, '');
+		visible[maxLines - 1] = last + ' …';
 		return visible;
 	}
 	return lines;

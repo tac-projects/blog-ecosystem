@@ -101,11 +101,6 @@ def publish_post(article, token, page_id, site_url):
         )
         parts.append(
             f"--{boundary}\r\n"
-            'Content-Disposition: form-data; name="url"\r\n\r\n'
-            f"{link}\r\n"
-        )
-        parts.append(
-            f"--{boundary}\r\n"
             'Content-Disposition: form-data; name="access_token"\r\n\r\n'
             f"{token}\r\n"
         )
