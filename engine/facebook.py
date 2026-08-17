@@ -79,9 +79,11 @@ def publish_post(article, token, page_id, site_url):
     """
     link = f"{site_url.rstrip('/')}/blog/{article['slug']}"
     message = (
-        f"{article['title']}\n\n"
+        f"🐾 Une question de passionnés de chats 🐾\n\n"
+        f"« {article['title']} »\n\n"
         f"{article['description']}\n\n"
-        f"Lire l'article : {link}"
+        f"Vous avez un chat ? Vous ne voudrez pas manquer ça !\n"
+        f"👉 Lire l'article : {link}"
     )
     url = f"https://graph.facebook.com/{GRAPH_VERSION}/{page_id}/photos"
 
