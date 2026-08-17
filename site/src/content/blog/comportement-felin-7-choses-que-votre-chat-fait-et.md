@@ -1,6 +1,6 @@
 ---
 title: "Comportement félin : 7 choses que votre chat fait et que vous interprétez mal"
-description: "Découvrez ce que votre chat essaie vraiment de vous dire à travers ses gestes et ses attitudes. Apprenez à décoder ses comportements mystérieux pour mieux comprendre votre compagnon et renforcer votre complicité."
+description: "Votre chat vous mordille puis s'en va ? Ce n'est peut-être pas ce que vous croyez. Découvrez pourquoi le ronronnement cache parfois du stress, pourquoi il vous fixe sans raison apparente, et ce que révèle vraiment son besoin de dormir sur votre clavier. Une lecture qui transformera votre regard sur votre félin."
 pubDate: '2026-08-07'
 category: 'Comportement'
 heroImage: '/images/comportement-felin-7-choses-que-votre-chat-fait-et.jpg'

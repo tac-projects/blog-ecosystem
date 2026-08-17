@@ -8,6 +8,7 @@ import urllib.parse
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR = os.path.dirname(BASE_DIR)
 BLOG_CONTENT_DIR = os.path.join(PROJECT_DIR, 'site/src/content/blog')
+FB_CARDS_DIR = os.path.join(PROJECT_DIR, 'site/public/fb-cards')
 STATE_FILE = os.path.join(PROJECT_DIR, '.fb_state.json')
 ENV_FILE = os.path.join(PROJECT_DIR, '.env')
 GRAPH_VERSION = 'v26.0'
@@ -71,24 +72,79 @@ def save_state(posted):
 
 
 def publish_post(article, token, page_id, site_url):
+    """Publie une photo native (carte FB) avec le lien de l'article dans le texte.
+
+    Retourne True si le post est publié (ou si la carte n'existe pas et que le
+    post-lien de secours fonctionne).
+    """
     link = f"{site_url.rstrip('/')}/blog/{article['slug']}"
     message = (
-        f"Nouvel article : {article['title']}\n\n"
+        f"{article['title']}\n\n"
         f"{article['description']}\n\n"
         f"Lire l'article : {link}"
     )
+    url = f"https://graph.facebook.com/{GRAPH_VERSION}/{page_id}/photos"
+
+    card_path = os.path.join(FB_CARDS_DIR, f"{article['slug']}.png")
+    if os.path.exists(card_path):
+        # Publication native de la photo + lien dans le texte (multipart/form-data)
+        boundary = '----fbCardBoundary7MA4YWxkTrZu0gW'
+        with open(card_path, 'rb') as f:
+            image_bytes = f.read()
+
+        parts = []
+        parts.append(
+            f"--{boundary}\r\n"
+            'Content-Disposition: form-data; name="message"\r\n\r\n'
+            f"{message}\r\n"
+        )
+        parts.append(
+            f"--{boundary}\r\n"
+            'Content-Disposition: form-data; name="url"\r\n\r\n'
+            f"{link}\r\n"
+        )
+        parts.append(
+            f"--{boundary}\r\n"
+            'Content-Disposition: form-data; name="access_token"\r\n\r\n'
+            f"{token}\r\n"
+        )
+        parts.append(
+            f"--{boundary}\r\n"
+            'Content-Disposition: form-data; name="source"; filename="card.png"\r\n'
+            'Content-Type: image/png\r\n\r\n'
+        )
+        body = ''.join(parts).encode('utf-8') + image_bytes + f"\r\n--{boundary}--\r\n".encode('utf-8')
+
+        req = urllib.request.Request(url, data=body, method='POST')
+        req.add_header('Content-Type', f'multipart/form-data; boundary={boundary}')
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                payload = json.loads(resp.read().decode('utf-8'))
+            print(f"[facebook] Published card '{article['title']}' -> {payload.get('id') or payload.get('post_id')}")
+            return True
+        except urllib.error.HTTPError as e:
+            try:
+                err_body = json.loads(e.read().decode('utf-8'))
+                err = err_body.get('error', {}).get('message', e.reason)
+            except Exception:
+                err = e.reason
+            print(f"[facebook] ERROR card post '{article['title']}': {err}")
+            # Fallback : post-lien classique
+        except Exception as e:
+            print(f"[facebook] ERROR card post '{article['title']}': {e}")
+
+    # Fallback : post-lien classique (comportement historique)
     data = urllib.parse.urlencode({
         'message': message,
         'link': link,
         'access_token': token,
     }).encode('utf-8')
-    url = f"https://graph.facebook.com/{GRAPH_VERSION}/{page_id}/feed"
-
-    req = urllib.request.Request(url, data=data, method='POST')
+    feed_url = f"https://graph.facebook.com/{GRAPH_VERSION}/{page_id}/feed"
+    req = urllib.request.Request(feed_url, data=data, method='POST')
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             payload = json.loads(resp.read().decode('utf-8'))
-        print(f"[facebook] Published '{article['title']}' -> {payload.get('id') or payload.get('post_id')}")
+        print(f"[facebook] Published link '{article['title']}' -> {payload.get('id') or payload.get('post_id')}")
         return True
     except urllib.error.HTTPError as e:
         try:

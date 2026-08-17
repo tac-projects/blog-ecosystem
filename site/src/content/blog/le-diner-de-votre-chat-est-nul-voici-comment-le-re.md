@@ -1,6 +1,6 @@
 ---
 title: "Le dîner de votre chat est nul. Voici comment le rendre irrésistible"
-description: "Découvrez des astuces simples et efficaces pour éveiller les papilles de votre félin et transformer chaque repas en moment de pur plaisir. Fini la gamelle dédaignée, votre chat réclamera son dîner avec enthousiasme."
+description: "Votre chat boude-t-il sa gamelle ? Découvrez comment transformer ses repas en moments de plaisir grâce à des astuces simples et naturelles. Texture, température, présentation : apprenez à éveiller ses sens et à lui donner envie de manger avec appétit. Offrez-lui des repas irrésistibles et renforcez votre complicité au quotidien."
 pubDate: '2026-08-11'
 category: 'Nutrition'
 heroImage: '/images/le-diner-de-votre-chat-est-nul-voici-comment-le-re.jpg'

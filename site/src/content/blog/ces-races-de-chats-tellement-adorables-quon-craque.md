@@ -1,6 +1,6 @@
 ---
 title: "Ces races de chats tellement adorables qu'on craque instantanément"
-description: "Découvrez les races félines les plus irrésistibles, celles dont les bouilles et les attitudes font fondre tous les amoureux des chats. Un guide tendre pour choisir votre futur compagnon."
+description: "Découvrez les races félines les plus craquantes, de leurs mines expressives à leurs pelages somptueux. Ce guide vous présente les chatons et adultes qui font fondre les cœurs, avec leurs particularités attachantes. Parfait pour choisir votre prochain compagnon ou simplement succomber à leur charme."
 pubDate: '2026-08-10'
 category: 'Races'
 heroImage: '/images/ces-races-de-chats-tellement-adorables-quon-craque.jpg'

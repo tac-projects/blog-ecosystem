@@ -399,15 +399,16 @@ def validate_links(content, valid_slugs):
 
 
 def generate_description(title, language, model, api_base):
-    """Generate a short, engaging meta description (1-2 sentences) for the article."""
+    """Generate an engaging meta description (2-3 sentences) for the article."""
     prompt = (
-        f'Write a short meta description for a blog post about "{title}" '
-        f'in {language}. It must be 1-2 sentences, engaging, accurate, '
+        f'Write a meta description for a blog post about "{title}" '
+        f'in {language}. It must be 2-3 sentences, engaging, accurate, '
         'and MUST NOT repeat the title verbatim. '
         'It should make a cat lover want to read the article. '
+        'Write enough detail to fill at least 3 lines on a 1080px social card. '
         'No quotes, no emojis, no markdown. Just the description.'
     )
-    desc = deepseek_chat(prompt, model, api_base, temperature=0.7, max_tokens=300).strip().strip('"')
+    desc = deepseek_chat(prompt, model, api_base, temperature=0.7, max_tokens=500).strip().strip('"')
     return desc
 
 

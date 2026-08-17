@@ -1,6 +1,6 @@
 ---
 title: "Les 7 choses que personne ne vous dit avant d'adopter un chat"
-description: "Vous pensez tout savoir sur les chats ? Découvrez les réalités surprenantes de la vie avec un félin, loin des clichés. De quoi vous préparer à une adoption en toute connaissance de cause."
+description: "Adopter un chat bouleverse votre quotidien bien plus que vous ne l'imaginez. Entre nuits agitées, griffures sur le canapé et moments de tendresse inattendus, ces mystères félins méritent d'être connus avant de sauter le pas. Découvrez les réalités cachées qui transformeront votre vision de la vie avec un matou."
 pubDate: '2026-08-15'
 category: 'Adoption'
 heroImage: '/images/les-7-choses-que-personne-ne-vous-dit-avant-dadopt.jpg'

@@ -14,12 +14,15 @@ echo "==> Step 2/5: Converting article images to PNG (Facebook og:image)"
 echo "==> Step 3/5: Building Astro site"
 (cd "$SITE_DIR" && npm run build)
 
-echo "==> Step 4/5: Publishing to $DOCROOT"
+echo "==> Step 4/6: Generating Facebook cards (1080x1080)"
+(cd "$SITE_DIR" && node "$ROOT_DIR/scripts/fb-cards.mjs")
+
+echo "==> Step 5/6: Publishing to $DOCROOT"
 mkdir -p "$DOCROOT"
 rm -rf "$DOCROOT"/*
 cp -r "$SITE_DIR/dist/"* "$DOCROOT/"
 
-echo "==> Step 5/5: Auto-publishing new articles to Facebook"
+echo "==> Step 6/6: Auto-publishing new articles to Facebook"
 python3 "$ROOT_DIR/engine/facebook.py"
 
 echo "==> Deploy complete"

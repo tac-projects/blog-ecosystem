@@ -1,6 +1,6 @@
 ---
 title: "On a enfin compris pourquoi les chats font ces 7 trucs bizarres"
-description: "Découvrez ce qui se cache vraiment derrière les habitudes les plus déroutantes de votre chat, du pétrissage à la chasse aux rayons lumineux. Une plongée fascinante dans l’esprit félin qui vous fera voir votre compagnon autrement."
+description: "Découvrez les explications scientifiques derrière les comportements étranges de votre félin. Pourquoi il adore les cartons, vous fixe sans ciller, ou s'acharne sur vos pieds. Un éclairage surprenant pour mieux comprendre votre compagnon à quatre pattes."
 pubDate: '2026-08-14'
 category: 'Comportement'
 heroImage: '/images/on-a-enfin-compris-pourquoi-les-chats-font-ces-7-t.jpg'

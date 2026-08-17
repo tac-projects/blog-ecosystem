@@ -1,6 +1,6 @@
 ---
 title: "Mon chat a un bobo ? Voici les gestes qui sauvent (sans stress)"
-description: "Découvrez comment réagir sereinement face à une petite blessure de votre félin. Les bons réflexes à adopter pour l'aider sans paniquer."
+description: "Un petit accident arrive si vite. Apprenez à examiner votre chat, à nettoyer une plaie mineure et à repérer les signes qui nécessitent un vétérinaire, avec des gestes simples et apaisants. Prenez soin de lui en toute sérénité, même dans les moments imprévus."
 pubDate: '2026-08-13'
 category: 'Sante & Soins'
 heroImage: '/images/mon-chat-a-un-bobo-voici-les-gestes-qui-sauvent-sa.jpg'

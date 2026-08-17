@@ -1,6 +1,6 @@
 ---
 title: "Ce que votre chat essaie de vous dire quand il boude ses croquettes (et comment y remédier)"
-description: "Votre félin boude sa gamelle sans raison apparente ? Découvrez les messages cachés derrière ce comportement et les solutions simples pour lui redonner l’appétit."
+description: "Votre chat délaisse sa gamelle sans explication ? Ce comportement cache souvent un message bien précis. Entre préférences alimentaires, problèmes de santé ou simple lassitude, apprenez à décoder les signaux. Découvrez des astuces pratiques pour redonner l'appétit à votre félin et renforcer votre complicité."
 pubDate: '2026-08-04'
 category: 'Nutrition'
 heroImage: '/images/ce-que-votre-chat-essaie-de-vous-dire-quand-il-bou.jpg'

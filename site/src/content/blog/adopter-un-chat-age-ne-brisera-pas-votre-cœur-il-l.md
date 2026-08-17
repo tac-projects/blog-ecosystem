@@ -1,6 +1,6 @@
 ---
 title: "Adopter un chat âgé ne brisera pas votre cœur – il le remplira."
-description: "Découvrez pourquoi offrir une seconde chance à un chat senior apporte une joie immense et un amour inattendu. Laissez-vous surprendre par la gratitude et la tendresse de ces compagnons d'âge mûr."
+description: "Adopter un senior félin est une aventure pleine de tendresse. Les chats âgés apportent une sérénité et une gratitude inestimables, dissipant les idées reçues sur leur adoption. Découvrez comment leur amour mature transforme votre quotidien en moments de pure complicité."
 pubDate: '2026-08-16'
 category: 'Adoption'
 heroImage: '/images/adopter-un-chat-age-ne-brisera-pas-votre-cœur-il-l.jpg'
