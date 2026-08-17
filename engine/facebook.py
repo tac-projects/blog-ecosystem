@@ -81,9 +81,8 @@ def publish_post(article, token, page_id, site_url):
     message = (
         f"🐾 L'article du jour 🐾\n\n"
         f"« {article['title']} »\n\n"
-        f"{article['description']}\n\n"
-        f"Vous avez un chat ? Vous ne voudrez pas manquer ça !\n"
-        f"👉 Lire l'article : {link}"
+        f"👉 Lire l'article : {link}\n\n"
+        f"{article['description']}"
     )
     url = f"https://graph.facebook.com/{GRAPH_VERSION}/{page_id}/photos"
 
