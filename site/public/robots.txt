@@ -5,4 +5,6 @@ User-agent: Facebot
 Allow: /
 
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: http://62.171.132.178/sitemap-index.xml
